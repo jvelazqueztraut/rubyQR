@@ -14,7 +14,7 @@ void ofApp::setup(){
     inicio.setPosition(ofPoint(ofGetWidth()*0.95,ofGetHeight()*0.1));
     inicio.setColor(ofColor(255,255));
 
-	camera.setup(1920,1080);
+	camera.setup(640,480);
 
 	// load scenes
     sceneManager.add(new InicioScene(sceneManager,inicio));
@@ -41,7 +41,7 @@ void ofApp::setup(){
     // create the google url string
     string url = "http://www.opcion2.com.ar/ruby/app/qr/?qr=456";
     ofHttpResponse res = ofLoadURL(url);
-    
+    cout << res.status << endl;
     if(res.status > 0) {
         // copy over the response date fromt the url load
         cout << res.data.getText() << endl;
