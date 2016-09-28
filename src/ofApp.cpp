@@ -2,54 +2,83 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ofBackground(255,255,255);
+	ofBackground(50,50,50);
 	ofSetLogLevel(OF_LOG_NOTICE);
-	ofSetOrientation(OF_ORIENTATION_90_LEFT);
+	//ofSetOrientation(OF_ORIENTATION_90_LEFT);
 
-	int cameraWidth = 320;
-	int cameraHeight = 240;
-	camera.setup(cameraWidth,cameraHeight);
+	ofPixels img;
+    ofLoadImage(img,"inicio.png");
+    inicio.loadData(img);
+    inicio.setAnchorPercent(0.5,0.5);
+    inicio.color.setDuration(0.75f);
+    inicio.setPosition(ofPoint(ofGetWidth()*0.95,ofGetHeight()*0.1));
+    inicio.setColor(ofColor(255,255));
 
-	one_second_time = ofGetSystemTime();
-	camera_fps = 0;
-	frames_one_sec = 0;
+	camera.setup(320,240);
+
+	// load scenes
+    sceneManager.add(new InicioScene(sceneManager,inicio));
+
+    // overlap scenes when transitioning
+    // sceneManager.setOverlap(true);
+    
+    //sceneManager.setup(true);	// true = setup all the scenes now (not on the fly)
+	ofSetLogLevel("ofxSceneManager", OF_LOG_VERBOSE); // lets see whats going on inside
+	
+	// start with a specific scene
+	// set now to true in order to ignore the scene fade and change now
+	sceneManager.gotoScene(INICIO_SCENE_NAME, false);
+	lastScene = sceneManager.getCurrentSceneIndex();
+	
+	// you can also turn off the auto sceneManager update and draw calls with:
+	setSceneManagerUpdate(false);
+	setSceneManagerDraw(false);
+	//
+	// the input callbacks in your scenes will be called if they are implemented
+	//
+	setSceneManager(&sceneManager);
+
+	time = ofGetElapsedTimef();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	float t = ofGetElapsedTimef();
+	float dt = t - time;
+	time = t;
+
 	camera.update();
 	if(camera.isFrameNew()){
-		frames_one_sec++;
-		if( ofGetSystemTime() - one_second_time >= 1000){
-			camera_fps = frames_one_sec;
-			frames_one_sec = 0;
-			one_second_time = ofGetSystemTime();
-		}
-		
-		ofxZxing::Result curResult = ofxZxing::decode(camera.getPixels(), true);
-		float curTime = ofGetElapsedTimef();
-		if(curResult.getFound()) { // only update if we found something, avoid flickering
-			result = curResult;
-			lastFound = curTime;
-		} else if(curTime - lastFound > 1) {  // if we haven't found anything after a second
-			result = curResult; // then update anyway
-		}
+		ofxZxing::Result result = ofxZxing::decode(camera.getPixels(), true);
 	}
+
+	sceneManager.update();
+    
+    inicio.update(dt);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	ofSetHexColor(0xFFFFFF);
+	ofSetColor(255);
 
+	sceneManager.draw();
+	
 	camera.draw(0, 0);
 
 	if(result.getFound()) {
 		result.draw();		
 	}
 
-	ofSetHexColor(0x000000);
-	ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate()),330,10);
-	ofDrawBitmapString("camera fps: " + ofToString(camera_fps),330,30);
+    inicio.draw();
+    
+#ifdef _DEBUG
+	// draw current scene info using the ofxBitmapString stream interface
+	// to ofDrawBitmapString
+	ofSetColor(255);
+	ofxBitmapString(12, ofGetHeight()-8)
+		<< "Current Scene: " << sceneManager.getCurrentSceneIndex()
+		<< " " << sceneManager.getCurrentSceneName() << endl;
+#endif
 }
 
 //--------------------------------------------------------------
@@ -69,7 +98,9 @@ void ofApp::windowResized(int w, int h){
 
 //--------------------------------------------------------------
 void ofApp::touchDown(int x, int y, int id){
-
+	if(inicio.inside(ofPoint(x,y))){
+        sceneManager.gotoScene(INICIO_SCENE_NAME, false);
+    }
 }
 
 //--------------------------------------------------------------

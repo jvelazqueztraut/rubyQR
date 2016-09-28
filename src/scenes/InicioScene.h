@@ -3,12 +3,11 @@
 #include <ofxAppUtils.h>
 #include "scenes.h"
 #include "ofxAnimatableObject.h"
-#include "Data.h"
 
 class InicioScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
-    InicioScene(ofxSceneManager& sm, Data& d, ofxAnimatableObject<ofTexture>& i) : sceneManager(sm), data(d), inicio(i), ofxScene(INICIO_SCENE_NAME, false) {
+    InicioScene(ofxSceneManager& sm, ofxAnimatableObject<ofTexture>& i) : sceneManager(sm), inicio(i), ofxScene(INICIO_SCENE_NAME, false) {
         ofImage img;
         ofLoadImage(img,"00_Inicio/background.png");
         background.loadData(img);
@@ -26,9 +25,7 @@ public:
 
         front.setPosition(-ofGetHeight(),ofGetHeight());
         front.setColor(ofColor(255,255));
-        
-        data.resetFiltered();
-        
+                
         time=ofGetElapsedTimef();
     }
     
@@ -99,7 +96,7 @@ public:
     void mousePressed(int x, int y, int button){
         if(isExiting())
             return;
-        sceneManager.gotoScene(MENU_SCENE_NAME);
+        sceneManager.gotoScene(INICIO_SCENE_NAME);
     }
     
     ofxAnimatableObject<ofTexture> background;
@@ -107,6 +104,5 @@ public:
     float time;
     
     ofxAnimatableObject<ofTexture>& inicio;
-    Data& data;
     ofxSceneManager& sceneManager;
 };

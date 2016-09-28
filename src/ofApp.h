@@ -6,10 +6,14 @@
 #include <vector>
 
 #include "ofxZxing.h"
-#include "ofxAnimatable.h"
+#include "ofxAnimatableObject.h"
 #include "ofxAppUtils.h"
 
-class ofApp : public ofxAndroidApp{
+#include "scenes/scenes.h"
+
+#define _DEBUG
+
+class ofApp : public ofxApp{
 	
 	public:
 		
@@ -42,7 +46,11 @@ class ofApp : public ofxAndroidApp{
 		float lastFound;
 		ofxZxing::Result result;
 
-		int one_second_time;
-		int camera_fps;
-		int frames_one_sec;
+		// handles the scenes
+		ofxSceneManager sceneManager;
+		int lastScene;
+        
+        ofxAnimatableObject<ofTexture> inicio;
+
+       	float time;
 };
