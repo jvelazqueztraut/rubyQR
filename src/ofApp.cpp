@@ -14,7 +14,7 @@ void ofApp::setup(){
     inicio.setPosition(ofPoint(ofGetWidth()*0.95,ofGetHeight()*0.1));
     inicio.setColor(ofColor(255,255));
 
-	camera.setup(320,240);
+	camera.setup(1920,1080);
 
 	// load scenes
     sceneManager.add(new InicioScene(sceneManager,inicio));
@@ -37,6 +37,15 @@ void ofApp::setup(){
 	// the input callbacks in your scenes will be called if they are implemented
 	//
 	setSceneManager(&sceneManager);
+    
+    // create the google url string
+    string url = "http://www.opcion2.com.ar/ruby/app/qr/?qr=456";
+    ofHttpResponse res = ofLoadURL(url);
+    
+    if(res.status > 0) {
+        // copy over the response date fromt the url load
+        cout << res.data.getText() << endl;
+    }
 
 	time = ofGetElapsedTimef();
 }
@@ -95,7 +104,7 @@ void ofApp::keyReleased(int key){
 void ofApp::windowResized(int w, int h){
 
 }
-
+#ifdef TARGET_ANDROID
 //--------------------------------------------------------------
 void ofApp::touchDown(int x, int y, int id){
 	if(inicio.inside(ofPoint(x,y))){
@@ -162,3 +171,4 @@ void ofApp::okPressed(){
 void ofApp::cancelPressed(){
 
 }
+#endif

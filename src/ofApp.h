@@ -1,7 +1,10 @@
 #pragma once
 
 #include "ofMain.h"
+
+#ifdef TARGET_ANDROID
 #include "ofxAndroid.h"
+#endif
 
 #include <vector>
 
@@ -25,6 +28,7 @@ class ofApp : public ofxApp{
 		void keyReleased(int key);
 		void windowResized(int w, int h);
 
+#ifdef TARGET_ANDROID
 		void touchDown(int x, int y, int id);
 		void touchMoved(int x, int y, int id);
 		void touchUp(int x, int y, int id);
@@ -40,7 +44,7 @@ class ofApp : public ofxApp{
 		bool backPressed();
 		void okPressed();
 		void cancelPressed();
-
+#endif
 		ofVideoGrabber camera;
 
 		float lastFound;
