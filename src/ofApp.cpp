@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ofBackground(50,50,50);
+	ofBackground(100,255,0);
 	ofSetLogLevel(OF_LOG_NOTICE);
 	//ofSetOrientation(OF_ORIENTATION_90_LEFT);
 
@@ -41,10 +41,10 @@ void ofApp::setup(){
     // create the google url string
     string url = "http://www.opcion2.com.ar/ruby/app/qr/?qr=456";
     ofHttpResponse res = ofLoadURL(url);
-    cout << res.status << endl;
+    ofLogNotice("ofHttpResponse") << "URL HTTP GET: " << res.status;
     if(res.status > 0) {
         // copy over the response date fromt the url load
-        cout << res.data.getText() << endl;
+        ofLogNotice("ofHttpResponse") << res.data.getText();
     }
 
 	time = ofGetElapsedTimef();
