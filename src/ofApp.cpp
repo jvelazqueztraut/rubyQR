@@ -155,7 +155,10 @@ void ofApp::resume(){
 
 //--------------------------------------------------------------
 void ofApp::reloadTextures(){
-
+    ofPixels img;
+    ofLoadImage(img,"ruby.png");
+    inicio.loadData(img);
+    inicio.setAnchorPercent(0.5,0.5);
 }
 
 //--------------------------------------------------------------

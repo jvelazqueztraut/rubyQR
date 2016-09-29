@@ -10,8 +10,7 @@ public:
     // set the scene name through the base class initializer
     QRScene(ofxSceneManager& sm, string& q) : sceneManager(sm), qr(q), ofxScene(QR_SCENE_NAME, false) {
         
-        camera.setup(640,480);
-        
+        camera.setup(1280,720);
     }
     
     // scene setup
@@ -79,12 +78,25 @@ public:
     
     // draw
     void draw() {
+#ifdef TARGET_ANDROID
+        float scale = ofGetHeight()/camera.getWidth();
+#else
+        float scale = ofGetWidth()/camera.getWidth();
+#endif
         ofPushStyle();
         ofSetColor(255);
+        ofPushMatrix();
+        ofTranslate(ofGetWidth()*0.5,ofGetHeight()*0.5);
+        ofScale(scale,scale);
+#ifdef TARGET_ANDROID
+        ofRotate(90);
+#endif
+        ofTranslate(-camera.getWidth()*0.5,-camera.getHeight()*0.5);
         camera.draw(0,0);
         if(result->getFound()){
             result->draw();
         }
+        ofPopMatrix();
         ofNoFill();
         ofDrawRectangle(ofGetWidth()*0.5-100,ofGetHeight()*0.5-100,200,200);
         ofPopStyle();
