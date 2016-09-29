@@ -79,14 +79,14 @@ public:
     // draw
     void draw() {
 #ifdef TARGET_ANDROID
-        float scale = ofGetHeight()/camera.getWidth();
+        float scale = APP_HEIGHT/camera.getWidth();
 #else
-        float scale = ofGetWidth()/camera.getWidth();
+        float scale = APP_WIDTH/camera.getWidth();
 #endif
         ofPushStyle();
         ofSetColor(255);
         ofPushMatrix();
-        ofTranslate(ofGetWidth()*0.5,ofGetHeight()*0.5);
+        ofTranslate(APP_WIDTH*0.5,APP_HEIGHT*0.5);
         ofScale(scale,scale);
 #ifdef TARGET_ANDROID
         ofRotate(90);
@@ -98,7 +98,7 @@ public:
         }
         ofPopMatrix();
         ofNoFill();
-        ofDrawRectangle(ofGetWidth()*0.5-100,ofGetHeight()*0.5-100,200,200);
+        ofDrawRectangle(APP_WIDTH*0.5-100,APP_HEIGHT*0.5-100,200,200);
         ofPopStyle();
     }
     

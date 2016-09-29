@@ -24,7 +24,7 @@ public:
     
     // scene setup
     void setup() {
-        scanButton.setPosition(ofGetWidth()*0.5-scanButton.width/2,ofGetHeight()-scanButton.height*1.5);
+        scanButton.setPosition(APP_WIDTH*0.5-scanButton.width/2,APP_HEIGHT-scanButton.height*1.5);
         
         time=ofGetElapsedTimef();
     }
@@ -92,6 +92,8 @@ public:
     }
     
     void mouseReleased(int x, int y, int button){
+        x*=APP_WIDTH/ofGetWidth();
+        y*=APP_HEIGHT/ofGetHeight();
         if(isExiting())
             return;
         if(scanButton.inside(x,y)){

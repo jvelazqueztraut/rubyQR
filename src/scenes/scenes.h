@@ -1,4 +1,7 @@
 
+#define APP_WIDTH 720.0
+#define APP_HEIGHT 1280.0
+
 #include "InicioScene.h"
 class InicioScene;
 #define INICIO_SCENE_NAME "Inicio"

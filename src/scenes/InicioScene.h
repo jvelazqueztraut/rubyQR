@@ -54,19 +54,19 @@ public:
     
     // scene setup
     void setup() {
-        nodeInput.bounds.setPosition(ofPoint(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5-TEXTINPUT_HEIGHT*1.75)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
+        nodeInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5-TEXTINPUT_HEIGHT*1.75)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
         nodeInput.text=node;
         nodeInput.disable();
         
-        deviceInput.bounds.setPosition(ofPoint(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
+        deviceInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
         deviceInput.text=device;
         deviceInput.disable();
         
-        urlInput.bounds.setPosition(ofPoint(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5+TEXTINPUT_HEIGHT*1.75)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
+        urlInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5+TEXTINPUT_HEIGHT*1.75)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
         urlInput.text=url;
         urlInput.disable();
         
-        loginButton.setPosition(ofGetWidth()*0.5-loginButton.width/2,ofGetHeight()-loginButton.height*1.5);
+        loginButton.setPosition(APP_WIDTH*0.5-loginButton.width/2,APP_HEIGHT-loginButton.height*1.5);
                 
         time=ofGetElapsedTimef();
     }
@@ -180,6 +180,8 @@ public:
     }
     
     void mouseReleased(int x, int y, int button){
+        x*=APP_WIDTH/ofGetWidth();
+        y*=APP_HEIGHT/ofGetHeight();
         if(isExiting())
             return;
         if(loginButton.inside(x,y)){

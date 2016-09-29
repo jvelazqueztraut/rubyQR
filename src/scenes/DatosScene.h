@@ -18,7 +18,7 @@ public:
         title.load("fonts/Futura/FuturaStd-Heavy.otf",24);
         title.setText("");
         title.setAnchorPercent(0.0,1.0);
-        title.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2));
+        title.setPosition(ofPoint(APP_WIDTH*0.5-DATOS_WIDTH/2,APP_HEIGHT*0.2));
         
         status.load("fonts/Futura/FuturaStd-Medium.otf",16);
         status.setText("");
@@ -50,7 +50,7 @@ public:
                 field.load("fonts/Futura/FuturaStd-Medium.otf",16);
                 field.setText(response["signup"]["d"+ofToString(i+2)].asString());
                 field.setAnchorPercent(0.0,1.0);
-                field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2+DATOS_HEIGHT*(i+1)));
+                field.setPosition(ofPoint(APP_WIDTH*0.5-DATOS_WIDTH/2,APP_HEIGHT*0.2+DATOS_HEIGHT*(i+1)));
                 field.setColor(ofColor(255,0));
                 field.setSize(0.8);
                 fields.push_back(field);
@@ -72,7 +72,7 @@ public:
             field.load("fonts/Futura/FuturaStd-Medium.otf",16);
             field.setText("");
             field.setAnchorPercent(0.0,1.0);
-            field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2+DATOS_HEIGHT));
+            field.setPosition(ofPoint(APP_WIDTH*0.5-DATOS_WIDTH/2,APP_HEIGHT*0.2+DATOS_HEIGHT));
             field.setColor(ofColor(255,0));
             field.setSize(0.8);
             fields.push_back(field);
@@ -104,7 +104,7 @@ public:
         title.setColor(ofColor(255,0));
         title.setSize(0.8);
         
-        scanButton.setPosition(ofGetWidth()*0.5-scanButton.width/2,ofGetHeight()-scanButton.height*1.5);
+        scanButton.setPosition(APP_WIDTH*0.5-scanButton.width/2,APP_HEIGHT-scanButton.height*1.5);
         
         time=ofGetElapsedTimef();
     }
@@ -204,6 +204,8 @@ public:
     }
     
     void mouseReleased(int x, int y, int button){
+        x*=APP_WIDTH/ofGetWidth();
+        y*=APP_HEIGHT/ofGetHeight();
         if(isExiting())
             return;
         if(scanButton.inside(x,y)){
