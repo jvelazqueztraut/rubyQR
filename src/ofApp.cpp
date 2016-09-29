@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ofBackground(100,255,0);
+	ofBackground(183,39,39);
 	ofSetLogLevel(OF_LOG_NOTICE);
 	//ofSetOrientation(OF_ORIENTATION_90_LEFT);
 
