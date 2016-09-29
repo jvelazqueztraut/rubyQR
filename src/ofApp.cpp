@@ -7,23 +7,37 @@ void ofApp::setup(){
 	//ofSetOrientation(OF_ORIENTATION_90_LEFT);
 
 	ofPixels img;
-    ofLoadImage(img,"inicio.png");
+    ofLoadImage(img,"ruby.png");
     inicio.loadData(img);
     inicio.setAnchorPercent(0.5,0.5);
     inicio.color.setDuration(0.75f);
-    inicio.setPosition(ofPoint(ofGetWidth()*0.95,ofGetHeight()*0.1));
+    inicio.setPosition(ofPoint(ofGetWidth()-inicio.getWidth()*0.5,inicio.getHeight()*0.5));
     inicio.setColor(ofColor(255,255));
-
-	camera.setup(640,480);
+    
+    std::string file = "login.json";
+    if(ofFile::doesFileExist(ofToDataPath(file))){
+        // Now parse the JSON
+        ofxJSONElement login;
+        bool parsing = login.open(file);
+        if(parsing){
+            node = login["node"].asString();
+            device = login["device"].asString();
+            url = login["url"].asString();
+        }
+    }
 
 	// load scenes
-    sceneManager.add(new InicioScene(sceneManager,inicio));
+    sceneManager.add(new InicioScene(sceneManager,node,device,url));
+    sceneManager.add(new QRScene(sceneManager,qr));
+    sceneManager.add(new PostScene(sceneManager,node,device,url,qr,response));
+    sceneManager.add(new DatosScene(sceneManager,response));
+    sceneManager.add(new ErrorScene(sceneManager));
 
     // overlap scenes when transitioning
     // sceneManager.setOverlap(true);
     
     //sceneManager.setup(true);	// true = setup all the scenes now (not on the fly)
-	ofSetLogLevel("ofxSceneManager", OF_LOG_VERBOSE); // lets see whats going on inside
+	ofSetLogLevel("ofxSceneManager", OF_LOG_NOTICE); // lets see whats going on inside
 	
 	// start with a specific scene
 	// set now to true in order to ignore the scene fade and change now
@@ -37,15 +51,6 @@ void ofApp::setup(){
 	// the input callbacks in your scenes will be called if they are implemented
 	//
 	setSceneManager(&sceneManager);
-    
-    // create the google url string
-    string url = "http://www.opcion2.com.ar/ruby/app/qr/?qr=456";
-    ofHttpResponse res = ofLoadURL(url);
-    ofLogNotice("ofHttpResponse") << "URL HTTP GET: " << res.status;
-    if(res.status > 0) {
-        // copy over the response date fromt the url load
-        ofLogNotice("ofHttpResponse") << res.data.getText();
-    }
 
 	time = ofGetElapsedTimef();
 }
@@ -55,11 +60,6 @@ void ofApp::update(){
 	float t = ofGetElapsedTimef();
 	float dt = t - time;
 	time = t;
-
-	camera.update();
-	if(camera.isFrameNew()){
-		ofxZxing::Result result = ofxZxing::decode(camera.getPixels(), true);
-	}
 
 	sceneManager.update();
     
@@ -71,12 +71,6 @@ void ofApp::draw(){
 	ofSetColor(255);
 
 	sceneManager.draw();
-	
-	camera.draw(0, 0);
-
-	if(result.getFound()) {
-		result.draw();		
-	}
 
     inicio.draw();
     
@@ -88,6 +82,13 @@ void ofApp::draw(){
 		<< "Current Scene: " << sceneManager.getCurrentSceneIndex()
 		<< " " << sceneManager.getCurrentSceneName() << endl;
 #endif
+}
+
+//--------------------------------------------------------------
+void ofApp::mousePressed(int x, int y, int button){
+    if(inicio.inside(ofPoint(x,y))){
+        sceneManager.gotoScene(INICIO_SCENE_NAME, false);
+    }
 }
 
 //--------------------------------------------------------------

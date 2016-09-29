@@ -11,6 +11,7 @@
 #include "ofxZxing.h"
 #include "ofxAnimatableObject.h"
 #include "ofxAppUtils.h"
+#include "ofxJSON.h"
 
 #include "scenes/scenes.h"
 
@@ -24,7 +25,8 @@ class ofApp : public ofxApp{
 		void update();
 		void draw();
 
-		void keyPressed(int key);
+        void mousePressed(int x, int y, int button);
+        void keyPressed(int key);
 		void keyReleased(int key);
 		void windowResized(int w, int h);
 
@@ -45,15 +47,15 @@ class ofApp : public ofxApp{
 		void okPressed();
 		void cancelPressed();
 #endif
-		ofVideoGrabber camera;
-
-		float lastFound;
-		ofxZxing::Result result;
-
+    
 		// handles the scenes
 		ofxSceneManager sceneManager;
 		int lastScene;
-        
+    
+        string node,device,url,qr;
+    
+        ofxJSONElement response;
+    
         ofxAnimatableObject<ofTexture> inicio;
 
        	float time;
