@@ -7,19 +7,16 @@
 #include "ofxJSONElement.h"
 
 #define TEXTINPUT_PADDING 3
-#define TEXTINPUT_WIDTH 350
-#define TEXTINPUT_HEIGHT 30
-
-#define BUTTON_WIDTH 350
-#define BUTTON_HEIGHT 50
+#define TEXTINPUT_WIDTH 500
+#define TEXTINPUT_HEIGHT 50
 
 class InicioScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     InicioScene(ofxSceneManager& sm, string& n, string& d, string& u) : sceneManager(sm), node(n), device(d), url(u), ofxScene(INICIO_SCENE_NAME, false) {
-        font.load("fonts/Calibri/calibri.ttf",16);
-        hints.load("fonts/Calibri/CalibriL.ttf",10);
-        loginText.load("fonts/Calibri/calibri.ttf",18);
+        font.load("fonts/Calibri/calibri.ttf",24);
+        hints.load("fonts/Calibri/CalibriL.ttf",14);
+        loginText.load("fonts/Calibri/calibri.ttf",24);
         
         loginButton.x=0;
         loginButton.y=0;

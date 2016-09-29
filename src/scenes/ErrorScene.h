@@ -5,16 +5,13 @@
 #include "ofxAnimatableObject.h"
 #include "ofxJSON.h"
 
-#define BUTTON_WIDTH 350
-#define BUTTON_HEIGHT 50
-
 class ErrorScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     ErrorScene(ofxSceneManager& sm) : sceneManager(sm), ofxScene(ERROR_SCENE_NAME, false) {
-        errorText.load("fonts/Futura/FuturaStd-Medium.otf",18);
+        errorText.load("fonts/Futura/FuturaStd-Medium.otf",24);
         
-        scanText.load("fonts/Calibri/calibri.ttf",18);
+        scanText.load("fonts/Calibri/calibri.ttf",24);
         
         scanButton.x=0;
         scanButton.y=0;

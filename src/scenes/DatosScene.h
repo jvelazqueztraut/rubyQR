@@ -5,30 +5,27 @@
 #include "ofxAnimatableObject.h"
 #include "ofxJSON.h"
 
-#define DATOS_WIDTH 350
-#define DATOS_HEIGHT 30
-
-#define BUTTON_WIDTH 350
-#define BUTTON_HEIGHT 50
+#define DATOS_WIDTH 500
+#define DATOS_HEIGHT 50
 
 class DatosScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     DatosScene(ofxSceneManager& sm, ofxJSONElement& r) : sceneManager(sm), response(r), ofxScene(DATOS_SCENE_NAME, false) {
-        title.load("fonts/Futura/FuturaStd-Heavy.otf",24);
+        title.load("fonts/Futura/FuturaStd-Heavy.otf",36);
         title.setText("");
         title.setAnchorPercent(0.0,1.0);
         title.setPosition(ofPoint(APP_WIDTH*0.5-DATOS_WIDTH/2,APP_HEIGHT*0.2));
         
-        status.load("fonts/Futura/FuturaStd-Medium.otf",16);
+        status.load("fonts/Futura/FuturaStd-Medium.otf",24);
         status.setText("");
         status.setAnchorPercent(0.0,1.0);
         
-        last.load("fonts/Futura/FuturaStd-Medium.otf",12);
+        last.load("fonts/Futura/FuturaStd-Medium.otf",18);
         last.setText("");
         last.setAnchorPercent(0.0,1.0);
         
-        scanText.load("fonts/Calibri/calibri.ttf",18);
+        scanText.load("fonts/Calibri/calibri.ttf",24);
         
         scanButton.x=0;
         scanButton.y=0;

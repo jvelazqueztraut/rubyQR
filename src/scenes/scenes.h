@@ -2,6 +2,9 @@
 #define APP_WIDTH 720.0
 #define APP_HEIGHT 1280.0
 
+#define BUTTON_WIDTH 500
+#define BUTTON_HEIGHT 80
+
 #include "InicioScene.h"
 class InicioScene;
 #define INICIO_SCENE_NAME "Inicio"
