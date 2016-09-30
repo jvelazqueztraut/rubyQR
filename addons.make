@@ -3,6 +3,7 @@ ofxAccelerometer
 ofxGui
 ofxAnimatable
 ofxAppUtils
+ofxMobileKeyboard
 ofxJSON
 ofxTextInputField
 ofxZxingAndroid

@@ -5,6 +5,7 @@
 #include "ofxAnimatableObject.h"
 #include "ofxTextInputField.h"
 #include "ofxJSONElement.h"
+#include "ofxMobileKeyboard.h"
 
 #define TEXTINPUT_PADDING 3
 #define TEXTINPUT_WIDTH 500
@@ -47,6 +48,11 @@ public:
         urlInput.setFont(font);
         urlInput.disable();
         
+        /*
+         * @param projectName, the project name needed for JNI bridge setup
+         */
+        keyboard.setup("rubyQR", "io/cran/", "/OFActivity");
+
     }
     
     // scene setup
@@ -87,6 +93,8 @@ public:
             deviceInput.enable();
             
             urlInput.enable();
+
+            keyboard.showKeyboard();
             
             finishedEntering();
             ofLogVerbose(INICIO_SCENE_NAME) << "update enter done";
@@ -218,7 +226,8 @@ public:
                 break;
         }
     }
-    
+    ofxMobileKeyboard keyboard;
+
     ofxTextInputField nodeInput,deviceInput,urlInput;
     ofTrueTypeFont font;
     ofTrueTypeFont hints;
