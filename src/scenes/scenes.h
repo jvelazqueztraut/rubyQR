@@ -1,6 +1,6 @@
 
-#define APP_WIDTH 720.0
-#define APP_HEIGHT 1230.0
+#define APP_WIDTH 768.0
+#define APP_HEIGHT 1024.0
 
 #define BUTTON_WIDTH 500
 #define BUTTON_HEIGHT 80
