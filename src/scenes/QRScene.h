@@ -102,6 +102,12 @@ public:
         ofPopStyle();
     }
     
+    void mousePressed(int x, int y, int button){
+        qr = "123";
+        ofLogNotice(QR_SCENE_NAME) << "Skipping QR scene with code: " << qr << endl;
+        sceneManager.gotoScene(POST_SCENE_NAME);
+    }
+    
     // cleanup
     void exit() {
         if(result!=NULL){
