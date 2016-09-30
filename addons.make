@@ -1,7 +1,5 @@
 ofxAnimatable
 ofxAppUtils
-ofxMobileKeyboard
 ofxGui
 ofxJSON
-ofxTextInputField
 ofxZxingAndroid

@@ -3,9 +3,8 @@
 #include <ofxAppUtils.h>
 #include "scenes.h"
 #include "ofxAnimatableObject.h"
-#include "ofxTextInputField.h"
 #include "ofxJSONElement.h"
-#include "ofxMobileKeyboard.h"
+#include "ofxiOSKeyboard.h"
 
 #define TEXTINPUT_PADDING 3
 #define TEXTINPUT_WIDTH 500
@@ -24,50 +23,39 @@ public:
         loginButton.width=BUTTON_WIDTH;
         loginButton.height=BUTTON_HEIGHT;
         
-        nodeInput.setup();
-        nodeInput.bounds.x = 0;
-        nodeInput.bounds.y = 0;
-        nodeInput.bounds.width = TEXTINPUT_WIDTH;
-        nodeInput.bounds.height = TEXTINPUT_HEIGHT;
-        nodeInput.setFont(font);
-        nodeInput.disable();
+        nodeInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5-TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        nodeInput = new ofxiOSKeyboard(0,0,nodeInputBounds.width,nodeInputBounds.height);
+        nodeInput->setVisible(true);
+        nodeInput->setBgColor(255, 255, 255, 0);
+        nodeInput->setFontColor(255,255,255, 255);
+        nodeInput->setFontSize(24);
         
-        deviceInput.setup();
-        deviceInput.bounds.x = 0;
-        deviceInput.bounds.y = 0;
-        deviceInput.bounds.width = TEXTINPUT_WIDTH;
-        deviceInput.bounds.height = TEXTINPUT_HEIGHT;
-        deviceInput.setFont(font);
-        deviceInput.disable();
+        deviceInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        deviceInput = new ofxiOSKeyboard(0,0,deviceInputBounds.width,deviceInputBounds.height);
+        deviceInput->setVisible(true);
+        deviceInput->setBgColor(255, 255, 255, 0);
+        deviceInput->setFontColor(255,255,255, 255);
+        deviceInput->setFontSize(24);
         
-        urlInput.setup();
-        urlInput.bounds.x = 0;
-        urlInput.bounds.y = 0;
-        urlInput.bounds.width = TEXTINPUT_WIDTH;
-        urlInput.bounds.height = TEXTINPUT_HEIGHT;
-        urlInput.setFont(font);
-        urlInput.disable();
-        
-        /*
-         * @param projectName, the project name needed for JNI bridge setup
-         */
-        keyboard.setup(100,100,100,100);
-
+        urlInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        urlInput = new ofxiOSKeyboard(0,0,urlInputBounds.width,urlInputBounds.height);
+        urlInput->setVisible(true);
+        urlInput->setBgColor(255, 255, 255, 0);
+        urlInput->setFontColor(255,255,255, 255);
+        urlInput->setFontSize(24);
     }
     
     // scene setup
     void setup() {
-        nodeInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5-TEXTINPUT_HEIGHT*1.75)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
-        nodeInput.text=node;
-        nodeInput.disable();
+        nodeInput->setPosition(nodeInputBounds.x,nodeInputBounds.y);
+        nodeInput->setText(node);
         
-        deviceInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
-        deviceInput.text=device;
-        deviceInput.disable();
+        deviceInput->setPosition(deviceInputBounds.x,deviceInputBounds.y);
+        deviceInput->setText(device);
         
-        urlInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5+TEXTINPUT_HEIGHT*1.75)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
-        urlInput.text=url;
-        urlInput.disable();
+        
+        urlInput->setPosition(urlInputBounds.x,urlInputBounds.y);
+        urlInput->setText(url);
         
         loginButton.setPosition(APP_WIDTH*0.5-loginButton.width/2,APP_HEIGHT-loginButton.height*1.5);
                 
@@ -79,6 +67,9 @@ public:
 		
         // called on first enter update
         if(isEnteringFirst()) {
+            nodeInput->setVisible(true);
+            deviceInput->setVisible(true);
+            urlInput->setVisible(true);
             
             ofLogVerbose(INICIO_SCENE_NAME) << "update enter";
         }
@@ -87,14 +78,6 @@ public:
 		
         // call finishedEntering() to indicate scne is done entering
         if(true) {
-            nodeInput.enable();
-            nodeInput.beginEditing();
-            
-            deviceInput.enable();
-            
-            urlInput.enable();
-
-            keyboard.showKeyboard();
             
             finishedEntering();
             ofLogVerbose(INICIO_SCENE_NAME) << "update enter done";
@@ -113,17 +96,12 @@ public:
 		
         // called on first exit update
         if(isExitingFirst()) {
-            node=nodeInput.text;
-            nodeInput.endEditing();
-            nodeInput.disable();
+            node=nodeInput->getText();
             
-            device=deviceInput.text;
-            deviceInput.endEditing();
-            deviceInput.disable();
-            
-            url=urlInput.text;
-            urlInput.endEditing();
-            urlInput.disable();
+            device=deviceInput->getText();
+
+            url=urlInput->getText();
+
             
             ofLogNotice(INICIO_SCENE_NAME) << "NODE: " << node;
             ofLogNotice(INICIO_SCENE_NAME) << "DEVICE: " << device;
@@ -142,6 +120,10 @@ public:
 		
         // call finishedExiting() to indicate scene is done exiting
         if(true) {
+            nodeInput->setVisible(false);
+            deviceInput->setVisible(false);
+            urlInput->setVisible(false);
+            
             finishedExiting();
             ofLogVerbose(INICIO_SCENE_NAME) << "update exit done";
         }
@@ -152,20 +134,17 @@ public:
         ofPushStyle();
         
         ofSetColor(255,255);
-        nodeInput.draw();
-        deviceInput.draw();
-        urlInput.draw();
         
         ofSetColor(255,200);
-        ofDrawLine(nodeInput.bounds.x,nodeInput.bounds.y+nodeInput.bounds.height+2,nodeInput.bounds.x+nodeInput.bounds.width,nodeInput.bounds.y+nodeInput.bounds.height+2);
-        ofDrawLine(deviceInput.bounds.x,deviceInput.bounds.y+deviceInput.bounds.height+2,deviceInput.bounds.x+deviceInput.bounds.width,deviceInput.bounds.y+deviceInput.bounds.height+2);
-        ofDrawLine(urlInput.bounds.x,urlInput.bounds.y+urlInput.bounds.height+2,urlInput.bounds.x+urlInput.bounds.width,urlInput.bounds.y+urlInput.bounds.height+2);
+        ofDrawLine(nodeInputBounds.x,nodeInputBounds.y+nodeInputBounds.height+2,nodeInputBounds.x+nodeInputBounds.width,nodeInputBounds.y+nodeInputBounds.height+2);
+        ofDrawLine(deviceInputBounds.x,deviceInputBounds.y+deviceInputBounds.height+2,deviceInputBounds.x+deviceInputBounds.width,deviceInputBounds.y+deviceInputBounds.height+2);
+        ofDrawLine(urlInputBounds.x,urlInputBounds.y+urlInputBounds.height+2,urlInputBounds.x+urlInputBounds.width,urlInputBounds.y+urlInputBounds.height+2);
 
         
         ofSetColor(255,150);
-        hints.drawString("node",nodeInput.bounds.x,nodeInput.bounds.y);
-        hints.drawString("device",deviceInput.bounds.x,deviceInput.bounds.y);
-        hints.drawString("url",urlInput.bounds.x,urlInput.bounds.y);
+        hints.drawString("node",nodeInputBounds.x,nodeInputBounds.y);
+        hints.drawString("device",deviceInputBounds.x,deviceInputBounds.y);
+        hints.drawString("url",urlInputBounds.x,urlInputBounds.y);
         
         ofSetColor(255,200);
         string loginStr = "LOGIN";
@@ -178,9 +157,6 @@ public:
     
     // cleanup
     void exit() {
-        nodeInput.disable();
-        deviceInput.disable();
-        urlInput.disable();
         ofLogVerbose(INICIO_SCENE_NAME) << "exit";
     }
     
@@ -193,7 +169,7 @@ public:
             sceneManager.gotoScene(QR_SCENE_NAME);
         }
         
-        if(nodeInput.getIsEditing()){
+        /*if(nodeInput.getIsEditing()){
             deviceInput.endEditing();
             urlInput.endEditing();
         }
@@ -204,13 +180,13 @@ public:
         else if(urlInput.getIsEditing()){
             nodeInput.endEditing();
             deviceInput.endEditing();
-        }
+        }*/
     }
     
     void keyPressed(int key){
         switch(key){
             case OF_KEY_RETURN:
-                if(nodeInput.getIsEditing()){
+                /*if(nodeInput.getIsEditing()){
                     nodeInput.endEditing();
                     deviceInput.beginEditing();
                 }
@@ -220,15 +196,17 @@ public:
                 }
                 else if(urlInput.getIsEditing()){
                     urlInput.endEditing();
-                }
+                }*/
                 break;
             default:
                 break;
         }
     }
-    ofxMobileKeyboard keyboard;
 
-    ofxTextInputField nodeInput,deviceInput,urlInput;
+    ofxiOSKeyboard * nodeInput;
+    ofxiOSKeyboard * deviceInput;
+    ofxiOSKeyboard * urlInput;
+    ofRectangle nodeInputBounds,deviceInputBounds,urlInputBounds;
     ofTrueTypeFont font;
     ofTrueTypeFont hints;
     ofRectangle loginButton;
