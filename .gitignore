@@ -53,6 +53,7 @@ ipch/
 *.plist
 *.xcconfig
 *.xcodeproj
+*.pch
 
 #Log files
 *.log
