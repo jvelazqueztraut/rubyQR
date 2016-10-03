@@ -82,7 +82,13 @@ public:
         ofDrawRectangle(scanButton);
         ofPopStyle();
     }
-    
+
+#ifdef TARGET_ANDROID
+    bool backPressed(){
+        sceneManager.gotoScene(QR_SCENE_NAME);
+        return true;
+    }
+#endif
     // cleanup
     void exit() {
         ofLogVerbose(ERROR_SCENE_NAME) << "exit";

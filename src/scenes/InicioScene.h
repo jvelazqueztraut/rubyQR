@@ -3,11 +3,10 @@
 #include <ofxAppUtils.h>
 #include "scenes.h"
 #include "ofxAnimatableObject.h"
-#include "ofxTextInputField.h"
 #include "ofxJSONElement.h"
-#include "ofxMobileKeyboard.h"
+#include "ofxAndroidExtendedEditText.h"
 
-#define TEXTINPUT_PADDING 3
+#define TEXTINPUT_PADDING 10
 #define TEXTINPUT_WIDTH 500
 #define TEXTINPUT_HEIGHT 50
 
@@ -15,7 +14,7 @@ class InicioScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     InicioScene(ofxSceneManager& sm, string& n, string& d, string& u) : sceneManager(sm), node(n), device(d), url(u), ofxScene(INICIO_SCENE_NAME, false) {
-        font.load("fonts/Calibri/calibri.ttf",24);
+        font.load("fonts/Calibri/calibri.ttf",16);
         hints.load("fonts/Calibri/CalibriL.ttf",14);
         loginText.load("fonts/Calibri/calibri.ttf",24);
         
@@ -24,50 +23,44 @@ public:
         loginButton.width=BUTTON_WIDTH;
         loginButton.height=BUTTON_HEIGHT;
         
-        nodeInput.setup();
-        nodeInput.bounds.x = 0;
-        nodeInput.bounds.y = 0;
-        nodeInput.bounds.width = TEXTINPUT_WIDTH;
-        nodeInput.bounds.height = TEXTINPUT_HEIGHT;
+        nodeInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5-TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        /*nodeInputBounds.x = 0;
+        nodeInputBounds.y = 0;
+        nodeInputBounds.width = TEXTINPUT_WIDTH;
+        nodeInputBounds.height = TEXTINPUT_HEIGHT;
         nodeInput.setFont(font);
-        nodeInput.disable();
+        nodeInput.disable();*/
         
-        deviceInput.setup();
-        deviceInput.bounds.x = 0;
-        deviceInput.bounds.y = 0;
-        deviceInput.bounds.width = TEXTINPUT_WIDTH;
-        deviceInput.bounds.height = TEXTINPUT_HEIGHT;
+        deviceInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        /*deviceInputBounds.x = 0;
+        deviceInputBounds.y = 0;
+        deviceInputBounds.width = TEXTINPUT_WIDTH;
+        deviceInputBounds.height = TEXTINPUT_HEIGHT;
         deviceInput.setFont(font);
-        deviceInput.disable();
+        deviceInput.disable();*/
         
-        urlInput.setup();
-        urlInput.bounds.x = 0;
-        urlInput.bounds.y = 0;
-        urlInput.bounds.width = TEXTINPUT_WIDTH;
-        urlInput.bounds.height = TEXTINPUT_HEIGHT;
+        urlInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        /*urlInputBounds.x = 0;
+        urlInputBounds.y = 0;
+        urlInputBounds.width = TEXTINPUT_WIDTH;
+        urlInputBounds.height = TEXTINPUT_HEIGHT;
         urlInput.setFont(font);
-        urlInput.disable();
-        
-        /*
-         * @param projectName, the project name needed for JNI bridge setup
-         */
-        keyboard.setup("rubyQR", "io/cran/", "/OFActivity");
-
+        urlInput.disable();*/
     }
     
     // scene setup
     void setup() {
-        nodeInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5-TEXTINPUT_HEIGHT*1.75)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
-        nodeInput.text=node;
-        nodeInput.disable();
+        nodeInput.setup();
+        nodeInput.add(node,nodeInputBounds.x*ofGetWidth()/APP_WIDTH-TEXTINPUT_PADDING,nodeInputBounds.y*ofGetHeight()/APP_HEIGHT-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese el nodo");
+        //nodeInput.disable();
         
-        deviceInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
-        deviceInput.text=device;
-        deviceInput.disable();
+        deviceInput.setup();
+        deviceInput.add(device,deviceInputBounds.x*ofGetWidth()/APP_WIDTH-TEXTINPUT_PADDING,deviceInputBounds.y*ofGetHeight()/APP_HEIGHT-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese el dispositivo");
+        //deviceInput.disable();
         
-        urlInput.bounds.setPosition(ofPoint(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2,APP_HEIGHT*0.5+TEXTINPUT_HEIGHT*1.75)-ofPoint(TEXTINPUT_PADDING,TEXTINPUT_PADDING+font.getLineHeight()));
-        urlInput.text=url;
-        urlInput.disable();
+        urlInput.setup();
+        urlInput.add(url,urlInputBounds.x*ofGetWidth()/APP_WIDTH-TEXTINPUT_PADDING,urlInputBounds.y*ofGetHeight()/APP_HEIGHT-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese la URL");
+        //urlInput.disable();
         
         loginButton.setPosition(APP_WIDTH*0.5-loginButton.width/2,APP_HEIGHT-loginButton.height*1.5);
                 
@@ -87,14 +80,12 @@ public:
 		
         // call finishedEntering() to indicate scne is done entering
         if(true) {
-            nodeInput.enable();
+            /*nodeInput.enable();
             nodeInput.beginEditing();
             
             deviceInput.enable();
             
-            urlInput.enable();
-
-            keyboard.showKeyboard();
+            urlInput.enable();*/
             
             finishedEntering();
             ofLogVerbose(INICIO_SCENE_NAME) << "update enter done";
@@ -113,18 +104,15 @@ public:
 		
         // called on first exit update
         if(isExitingFirst()) {
-            node=nodeInput.text;
-            nodeInput.endEditing();
-            nodeInput.disable();
+            node=nodeInput.getText();
+            //nodeInput.endEditing();
             
-            device=deviceInput.text;
-            deviceInput.endEditing();
-            deviceInput.disable();
+            device=deviceInput.getText();
+            //deviceInput.endEditing();
             
-            url=urlInput.text;
-            urlInput.endEditing();
-            urlInput.disable();
-            
+            url=urlInput.getText();
+            //urlInput.endEditing();
+
             ofLogNotice(INICIO_SCENE_NAME) << "NODE: " << node;
             ofLogNotice(INICIO_SCENE_NAME) << "DEVICE: " << device;
             ofLogNotice(INICIO_SCENE_NAME) << "URL: " << url;
@@ -151,22 +139,17 @@ public:
     void draw() {
         ofPushStyle();
         
-        ofSetColor(255,255);
-        nodeInput.draw();
-        deviceInput.draw();
-        urlInput.draw();
-        
         ofSetColor(255,200);
-        ofDrawLine(nodeInput.bounds.x,nodeInput.bounds.y+nodeInput.bounds.height+2,nodeInput.bounds.x+nodeInput.bounds.width,nodeInput.bounds.y+nodeInput.bounds.height+2);
-        ofDrawLine(deviceInput.bounds.x,deviceInput.bounds.y+deviceInput.bounds.height+2,deviceInput.bounds.x+deviceInput.bounds.width,deviceInput.bounds.y+deviceInput.bounds.height+2);
-        ofDrawLine(urlInput.bounds.x,urlInput.bounds.y+urlInput.bounds.height+2,urlInput.bounds.x+urlInput.bounds.width,urlInput.bounds.y+urlInput.bounds.height+2);
+        ofDrawLine(nodeInputBounds.x,nodeInputBounds.y+nodeInputBounds.height+2,nodeInputBounds.x+nodeInputBounds.width,nodeInputBounds.y+nodeInputBounds.height+2);
+        ofDrawLine(deviceInputBounds.x,deviceInputBounds.y+deviceInputBounds.height+2,deviceInputBounds.x+deviceInputBounds.width,deviceInputBounds.y+deviceInputBounds.height+2);
+        ofDrawLine(urlInputBounds.x,urlInputBounds.y+urlInputBounds.height+2,urlInputBounds.x+urlInputBounds.width,urlInputBounds.y+urlInputBounds.height+2);
 
         
         ofSetColor(255,150);
-        hints.drawString("node",nodeInput.bounds.x,nodeInput.bounds.y);
-        hints.drawString("device",deviceInput.bounds.x,deviceInput.bounds.y);
-        hints.drawString("url",urlInput.bounds.x,urlInput.bounds.y);
-        
+        hints.drawString("node",nodeInputBounds.x,nodeInputBounds.y);
+        hints.drawString("device",deviceInputBounds.x,deviceInputBounds.y);
+        hints.drawString("url",urlInputBounds.x,urlInputBounds.y);
+
         ofSetColor(255,200);
         string loginStr = "LOGIN";
         loginText.drawString(loginStr,loginButton.x+loginButton.width/2-loginText.stringWidth(loginStr)/2,loginButton.y+loginButton.height/2+loginText.stringHeight(loginStr)/2);
@@ -178,9 +161,10 @@ public:
     
     // cleanup
     void exit() {
-        nodeInput.disable();
-        deviceInput.disable();
-        urlInput.disable();
+        nodeInput.remove();
+        deviceInput.remove();
+        urlInput.remove();
+
         ofLogVerbose(INICIO_SCENE_NAME) << "exit";
     }
     
@@ -193,7 +177,7 @@ public:
             sceneManager.gotoScene(QR_SCENE_NAME);
         }
         
-        if(nodeInput.getIsEditing()){
+        /*if(nodeInput.getIsEditing()){
             deviceInput.endEditing();
             urlInput.endEditing();
         }
@@ -204,13 +188,14 @@ public:
         else if(urlInput.getIsEditing()){
             nodeInput.endEditing();
             deviceInput.endEditing();
-        }
+        }*/
     }
     
     void keyPressed(int key){
+        ofLogWarning(INICIO_SCENE_NAME)<<"Key pressed: "<<key;
         switch(key){
             case OF_KEY_RETURN:
-                if(nodeInput.getIsEditing()){
+                /*if(nodeInput.getIsEditing()){
                     nodeInput.endEditing();
                     deviceInput.beginEditing();
                 }
@@ -220,15 +205,23 @@ public:
                 }
                 else if(urlInput.getIsEditing()){
                     urlInput.endEditing();
-                }
+                }*/
                 break;
             default:
                 break;
         }
     }
-    ofxMobileKeyboard keyboard;
+#ifdef TARGET_ANDROID
+    void resume(){
+        setup();
+        ofLogError(INICIO_SCENE_NAME)<<"Reload textures now!";
+    }
+#endif
 
-    ofxTextInputField nodeInput,deviceInput,urlInput;
+    ofxAndroidExtendedEditText nodeInput;
+    ofxAndroidExtendedEditText deviceInput;
+    ofxAndroidExtendedEditText urlInput;
+    ofRectangle nodeInputBounds,deviceInputBounds,urlInputBounds;
     ofTrueTypeFont font;
     ofTrueTypeFont hints;
     ofRectangle loginButton;

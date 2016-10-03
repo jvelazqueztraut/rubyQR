@@ -194,6 +194,13 @@ public:
         ofPopStyle();
 
     }
+
+#ifdef TARGET_ANDROID
+    bool backPressed(){
+        sceneManager.gotoScene(QR_SCENE_NAME);
+        return true;
+    }
+#endif
     
     // cleanup
     void exit() {

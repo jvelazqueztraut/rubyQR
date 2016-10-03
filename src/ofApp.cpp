@@ -3,8 +3,11 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(183,39,39);
-	ofSetLogLevel(OF_LOG_NOTICE);
+	ofSetLogLevel(OF_LOG_VERBOSE);
 	ofSetOrientation(OF_ORIENTATION_DEFAULT);
+
+    ofAddListener(ofxAndroidEvents().pause,this,&ofApp::pause);
+    ofAddListener(ofxAndroidEvents().resume,this,&ofApp::resume);
 
 	ofPixels img;
     ofLoadImage(img,"ruby.png");
@@ -61,6 +64,13 @@ void ofApp::update(){
 	float dt = t - time;
 	time = t;
 
+	if(!inicio.isAllocated()){
+	    ofPixels img;
+        ofLoadImage(img,"ruby.png");
+        inicio.loadData(img);
+        inicio.setAnchorPercent(0.5,0.5);
+	}
+
 	sceneManager.update();
     
     inicio.update(dt);
@@ -100,7 +110,7 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed  (int key){ 
-	
+	ofLogWarning()<<"Key pressed: "<<key;
 }
 
 //--------------------------------------------------------------
@@ -147,7 +157,7 @@ void ofApp::swipe(ofxAndroidSwipeDir swipeDir, int id){
 
 //--------------------------------------------------------------
 void ofApp::pause(){
-
+    inicio.clear();
 }
 
 //--------------------------------------------------------------
@@ -162,15 +172,13 @@ void ofApp::resume(){
 
 //--------------------------------------------------------------
 void ofApp::reloadTextures(){
-    ofPixels img;
-    ofLoadImage(img,"ruby.png");
-    inicio.loadData(img);
-    inicio.setAnchorPercent(0.5,0.5);
+    
 }
 
 //--------------------------------------------------------------
 bool ofApp::backPressed(){
-	return false;
+    ofLogWarning("ofApp")<<"Back pressed";
+    return false;
 }
 
 //--------------------------------------------------------------
