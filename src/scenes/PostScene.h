@@ -14,6 +14,11 @@ public:
     
     // scene setup
     void setup() {
+
+        ofPixels img;
+        ofLoadImage(img,"logo.png");
+        logo.loadData(img);
+        logo.setAnchorPercent(0.5,0.5);
                 
         time=ofGetElapsedTimef();
     }
@@ -44,7 +49,18 @@ public:
         
         if(!isEntering() && !isExiting()){
             // create the url string
-            string uri = "http://" + url + "/?qr=" + qr;
+            string uri = url;
+            
+            string varQR = "%Q";
+            size_t start_pos = uri.find(varQR);
+            if(start_pos != std::string::npos)
+                uri.replace(start_pos, varQR.length(), qr);
+            else
+                uri=uri+qr;
+
+            if(uri.substr(0,4).compare("http")!=0)
+                uri="http://"+uri;
+
             ofLogNotice(POST_SCENE_NAME) << "URI: " << uri;
             ofHttpResponse res = ofLoadURL(uri);
             ofLogNotice(POST_SCENE_NAME) << "HTTP GET: " << res.status;
@@ -92,8 +108,19 @@ public:
     
     // draw
     void draw() {
-
+        ofSetColor(255);
+        ofPushMatrix();
+        ofTranslate(ofGetWidth()*0.5,ofGetHeight()*0.5);
+        logo.draw(0,0);
+        ofPopMatrix();
     }
+
+#ifdef TARGET_ANDROID
+    bool backPressed(){
+        sceneManager.gotoScene(QR_SCENE_NAME);
+        return true;
+    }
+#endif
     
     // cleanup
     void exit() {
@@ -101,7 +128,7 @@ public:
     }
     
     ofHttpResponse res;
-    
+    ofTexture logo;
     float time;
     string& node;
     string& device;

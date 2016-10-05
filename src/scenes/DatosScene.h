@@ -5,27 +5,27 @@
 #include "ofxAnimatableObject.h"
 #include "ofxJSON.h"
 
-#define DATOS_WIDTH 500
-#define DATOS_HEIGHT 50
+#define DATOS_WIDTH (500*ofGetWidth()/APP_WIDTH)
+#define DATOS_HEIGHT (50*ofGetWidth()/APP_WIDTH)
 
 class DatosScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     DatosScene(ofxSceneManager& sm, ofxJSONElement& r) : sceneManager(sm), response(r), ofxScene(DATOS_SCENE_NAME, false) {
-        title.load("fonts/Futura/FuturaStd-Heavy.otf",36);
+        title.load("fonts/Futura/FuturaStd-Heavy.otf",36*ofGetWidth()/APP_WIDTH);
         title.setText("");
         title.setAnchorPercent(0.0,1.0);
-        title.setPosition(ofPoint(APP_WIDTH*0.5-DATOS_WIDTH/2,APP_HEIGHT*0.2));
+        title.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2));
         
-        status.load("fonts/Futura/FuturaStd-Medium.otf",24);
+        status.load("fonts/Futura/FuturaStd-Medium.otf",24*ofGetWidth()/APP_WIDTH);
         status.setText("");
         status.setAnchorPercent(0.0,1.0);
         
-        last.load("fonts/Futura/FuturaStd-Medium.otf",18);
+        last.load("fonts/Futura/FuturaStd-Medium.otf",18*ofGetWidth()/APP_WIDTH);
         last.setText("");
         last.setAnchorPercent(0.0,1.0);
         
-        scanText.load("fonts/Calibri/calibri.ttf",24);
+        scanText.load("fonts/Calibri/calibri.ttf",24*ofGetWidth()/APP_WIDTH);
         
         scanButton.x=0;
         scanButton.y=0;
@@ -44,10 +44,10 @@ public:
             
             for(int i=0;i<response["signup"].size()-3;i++){
                 ofxAnimatableObject<ofTrueTypeFont> field;
-                field.load("fonts/Futura/FuturaStd-Medium.otf",16);
+                field.load("fonts/Futura/FuturaStd-Medium.otf",16*ofGetWidth()/APP_WIDTH);
                 field.setText(response["signup"]["d"+ofToString(i+2)].asString());
                 field.setAnchorPercent(0.0,1.0);
-                field.setPosition(ofPoint(APP_WIDTH*0.5-DATOS_WIDTH/2,APP_HEIGHT*0.2+DATOS_HEIGHT*(i+1)));
+                field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2+DATOS_HEIGHT*(i+1)));
                 field.setColor(ofColor(255,0));
                 field.setSize(0.8);
                 fields.push_back(field);
@@ -66,10 +66,10 @@ public:
             title.setText("No hay datos disponibles");
             
             ofxAnimatableObject<ofTrueTypeFont> field;
-            field.load("fonts/Futura/FuturaStd-Medium.otf",16);
+            field.load("fonts/Futura/FuturaStd-Medium.otf",16*ofGetWidth()/APP_WIDTH);
             field.setText("");
             field.setAnchorPercent(0.0,1.0);
-            field.setPosition(ofPoint(APP_WIDTH*0.5-DATOS_WIDTH/2,APP_HEIGHT*0.2+DATOS_HEIGHT));
+            field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2+DATOS_HEIGHT));
             field.setColor(ofColor(255,0));
             field.setSize(0.8);
             fields.push_back(field);
@@ -101,7 +101,7 @@ public:
         title.setColor(ofColor(255,0));
         title.setSize(0.8);
         
-        scanButton.setPosition(APP_WIDTH*0.5-scanButton.width/2,APP_HEIGHT-scanButton.height*1.5);
+        scanButton.setPosition(ofGetWidth()*0.5-scanButton.width/2,ofGetHeight()-scanButton.height*1.5);
         
         time=ofGetElapsedTimef();
     }
@@ -201,8 +201,6 @@ public:
     }
     
     void mouseReleased(int x, int y, int button){
-        x*=APP_WIDTH/ofGetWidth();
-        y*=APP_HEIGHT/ofGetHeight();
         if(isExiting())
             return;
         if(scanButton.inside(x,y)){

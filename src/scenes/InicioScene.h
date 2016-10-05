@@ -6,58 +6,64 @@
 #include "ofxJSONElement.h"
 #include "ofxiOSKeyboard.h"
 
-#define TEXTINPUT_PADDING 3
-#define TEXTINPUT_WIDTH 500
-#define TEXTINPUT_HEIGHT 50
+#define TEXTINPUT_PADDING (5*ofGetWidth()/APP_WIDTH)
+#define TEXTINPUT_WIDTH (500*ofGetWidth()/APP_WIDTH)
+#define TEXTINPUT_HEIGHT (50*ofGetWidth()/APP_WIDTH)
 
 class InicioScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     InicioScene(ofxSceneManager& sm, string& n, string& d, string& u) : sceneManager(sm), node(n), device(d), url(u), ofxScene(INICIO_SCENE_NAME, false) {
-        font.load("fonts/Calibri/calibri.ttf",24);
-        hints.load("fonts/Calibri/CalibriL.ttf",14);
-        loginText.load("fonts/Calibri/calibri.ttf",24);
+        font.load("fonts/Calibri/calibri.ttf",24*ofGetWidth()/APP_WIDTH);
+        hints.load("fonts/Calibri/CalibriL.ttf",14*ofGetWidth()/APP_WIDTH);
+        loginText.load("fonts/Calibri/calibri.ttf",24*ofGetWidth()/APP_WIDTH);
         
         loginButton.x=0;
         loginButton.y=0;
         loginButton.width=BUTTON_WIDTH;
         loginButton.height=BUTTON_HEIGHT;
         
-        nodeInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5-TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        iOSScale = 1.0;
+        
+        if(ofxiOSGetOFWindow()->isRetinaEnabled() && ofxiOSGetOFWindow()->isRetinaSupportedOnDevice()){
+            iOSScale/=ofxiOSGetOFWindow()->getRetinaScale();
+        }
+        
+        nodeInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,ofGetHeight()*0.5-TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         nodeInput = new ofxiOSKeyboard(0,0,nodeInputBounds.width,nodeInputBounds.height);
         nodeInput->setVisible(true);
         nodeInput->setBgColor(255, 255, 255, 0);
         nodeInput->setFontColor(255,255,255, 255);
-        nodeInput->setFontSize(24);
+        nodeInput->setFontSize(24*iOSScale*ofGetHeight()/APP_HEIGHT);
         
-        deviceInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        deviceInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,ofGetHeight()*0.5-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         deviceInput = new ofxiOSKeyboard(0,0,deviceInputBounds.width,deviceInputBounds.height);
         deviceInput->setVisible(true);
         deviceInput->setBgColor(255, 255, 255, 0);
         deviceInput->setFontColor(255,255,255, 255);
-        deviceInput->setFontSize(24);
+        deviceInput->setFontSize(24*iOSScale*ofGetHeight()/APP_HEIGHT);
         
-        urlInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        urlInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,ofGetHeight()*0.5+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         urlInput = new ofxiOSKeyboard(0,0,urlInputBounds.width,urlInputBounds.height);
         urlInput->setVisible(true);
         urlInput->setBgColor(255, 255, 255, 0);
         urlInput->setFontColor(255,255,255, 255);
-        urlInput->setFontSize(24);
+        urlInput->setFontSize(24*iOSScale*ofGetHeight()/APP_HEIGHT);
     }
     
     // scene setup
     void setup() {
-        nodeInput->setPosition(nodeInputBounds.x,nodeInputBounds.y);
+        nodeInput->setPosition(nodeInputBounds.x*iOSScale,nodeInputBounds.y*iOSScale-TEXTINPUT_PADDING/iOSScale);
         nodeInput->setText(node);
         
-        deviceInput->setPosition(deviceInputBounds.x,deviceInputBounds.y);
+        deviceInput->setPosition(deviceInputBounds.x*iOSScale,deviceInputBounds.y*iOSScale-TEXTINPUT_PADDING/iOSScale);
         deviceInput->setText(device);
         
         
-        urlInput->setPosition(urlInputBounds.x,urlInputBounds.y);
+        urlInput->setPosition(urlInputBounds.x*iOSScale,urlInputBounds.y*iOSScale-TEXTINPUT_PADDING/iOSScale);
         urlInput->setText(url);
         
-        loginButton.setPosition(APP_WIDTH*0.5-loginButton.width/2,APP_HEIGHT-loginButton.height*1.5);
+        loginButton.setPosition(ofGetWidth()*0.5-loginButton.width/2,ofGetHeight()-loginButton.height*1.5);
                 
         time=ofGetElapsedTimef();
     }
@@ -161,8 +167,6 @@ public:
     }
     
     void mouseReleased(int x, int y, int button){
-        x*=APP_WIDTH/ofGetWidth();
-        y*=APP_HEIGHT/ofGetHeight();
         if(isExiting())
             return;
         if(loginButton.inside(x,y)){
@@ -202,6 +206,8 @@ public:
                 break;
         }
     }
+    
+    float iOSScale;
 
     ofxiOSKeyboard * nodeInput;
     ofxiOSKeyboard * deviceInput;

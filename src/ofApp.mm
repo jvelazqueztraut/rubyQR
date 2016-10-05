@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofLogWarning() << "Width: "<< ofGetWidth() << ", Height: "<< ofGetHeight();
 	ofBackground(183,39,39);
 	ofSetLogLevel(OF_LOG_NOTICE);
 	ofSetOrientation(OF_ORIENTATION_DEFAULT);
@@ -11,7 +12,7 @@ void ofApp::setup(){
     inicio.loadData(img);
     inicio.setAnchorPercent(0.5,0.5);
     inicio.color.setDuration(0.75f);
-    inicio.setPosition(ofPoint(APP_WIDTH-inicio.getWidth()*0.5,inicio.getHeight()*0.5));
+    inicio.setPosition(ofPoint(ofGetWidth()-inicio.getWidth()*0.5,inicio.getHeight()*0.5));
     inicio.setColor(ofColor(255,255));
     
     std::string file = "login.json";
@@ -70,14 +71,14 @@ void ofApp::update(){
 void ofApp::draw(){
 	ofSetColor(255);
     
-    ofPushMatrix();
-    ofScale(ofGetWidth()/APP_WIDTH,ofGetHeight()/APP_HEIGHT);
+    //ofPushMatrix();
+    //ofScale(ofGetWidth()/APP_WIDTH,ofGetHeight()/APP_HEIGHT);
     
 	sceneManager.draw();
-
-    inicio.draw();
     
-    ofPopMatrix();
+    //ofPopMatrix();
+    
+    inicio.draw();
     
 #ifdef _DEBUG
 	// draw current scene info using the ofxBitmapString stream interface
@@ -91,8 +92,6 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    x*=APP_WIDTH/ofGetWidth();
-    y*=APP_HEIGHT/ofGetHeight();
     if(inicio.inside(ofPoint(x,y))){
         sceneManager.gotoScene(INICIO_SCENE_NAME, false);
     }

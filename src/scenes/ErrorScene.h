@@ -9,9 +9,9 @@ class ErrorScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     ErrorScene(ofxSceneManager& sm) : sceneManager(sm), ofxScene(ERROR_SCENE_NAME, false) {
-        errorText.load("fonts/Futura/FuturaStd-Medium.otf",24);
+        errorText.load("fonts/Futura/FuturaStd-Medium.otf",24*ofGetWidth()/APP_WIDTH);
         
-        scanText.load("fonts/Calibri/calibri.ttf",24);
+        scanText.load("fonts/Calibri/calibri.ttf",24*ofGetWidth()/APP_WIDTH);
         
         scanButton.x=0;
         scanButton.y=0;
@@ -21,7 +21,7 @@ public:
     
     // scene setup
     void setup() {
-        scanButton.setPosition(APP_WIDTH*0.5-scanButton.width/2,APP_HEIGHT-scanButton.height*1.5);
+        scanButton.setPosition(ofGetWidth()*0.5-scanButton.width/2,ofGetHeight()-scanButton.height*1.5);
         
         time=ofGetElapsedTimef();
     }
@@ -71,8 +71,8 @@ public:
     
     // draw
     void draw() {
-        errorText.drawString("Se ha producido un error",20,100);
-        errorText.drawString("Por favor chequee su conexion",20,140);
+        errorText.drawString("Se ha producido un error",20,100*ofGetWidth()/APP_WIDTH);
+        errorText.drawString("Por favor chequee su conexion",20,140*ofGetWidth()/APP_WIDTH);
         
         ofPushStyle();
         ofSetColor(255,200);
@@ -89,8 +89,6 @@ public:
     }
     
     void mouseReleased(int x, int y, int button){
-        x*=APP_WIDTH/ofGetWidth();
-        y*=APP_HEIGHT/ofGetHeight();
         if(isExiting())
             return;
         if(scanButton.inside(x,y)){
