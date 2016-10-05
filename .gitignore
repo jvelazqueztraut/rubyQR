@@ -91,5 +91,7 @@ res/
 *.iml
 srcJava/
 
+src/scenes/token.h
+
 # don't ignore the .gitignore file
 !.gitignore

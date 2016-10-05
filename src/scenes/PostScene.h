@@ -5,6 +5,8 @@
 #include "ofxAnimatableObject.h"
 #include "ofxJSON.h"
 
+#include "token.h"
+
 class PostScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
@@ -68,8 +70,15 @@ public:
                 if(res.status == 200){
                     bool parsing = response.parse(res.data.getText());
                     if(parsing){
-                        ofLogNotice(POST_SCENE_NAME) << "Respuesta: " << res.data.getText();
-                        sceneManager.gotoScene(DATOS_SCENE_NAME);
+                        string token = APP_TOKEN;
+                        if(token.compare(response["token"].asString())==0){
+                            ofLogNotice(POST_SCENE_NAME) << "Respuesta: " << res.data.getText();
+                            sceneManager.gotoScene(DATOS_SCENE_NAME);
+                        }
+                        else{
+                            ofLogError(POST_SCENE_NAME) << "Token invalido.";
+                            sceneManager.gotoScene(ERROR_SCENE_NAME);
+                        }
                     }
                     else{
                         ofLogError(POST_SCENE_NAME) << "Problemas con el parseo de la respuesta: " << res.data.getText();
