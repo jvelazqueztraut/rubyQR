@@ -79,14 +79,14 @@ public:
     // draw
     void draw() {
 #ifdef TARGET_ANDROID
-        float scale = APP_HEIGHT/camera.getWidth();
+        float scale = ofGetHeight()/camera.getWidth();
 #else
-        float scale = APP_WIDTH/camera.getWidth();
+        float scale = ofGetWidth()/camera.getWidth();
 #endif
         ofPushStyle();
         ofSetColor(255);
         ofPushMatrix();
-        ofTranslate(APP_WIDTH*0.5,APP_HEIGHT*0.5);
+        ofTranslate(ofGetWidth()*0.5,ofGetHeight()*0.5);
         ofScale(scale,scale);
 #ifdef TARGET_ANDROID
         ofRotate(90);
@@ -98,7 +98,7 @@ public:
         }
         ofPopMatrix();
         ofNoFill();
-        ofDrawRectangle(APP_WIDTH*0.5-100,APP_HEIGHT*0.5-100,200,200);
+        ofDrawRectangle(ofGetWidth()*0.5-100,ofGetHeight()*0.5-100,200,200);
         ofPopStyle();
     }
     
@@ -109,6 +109,14 @@ public:
             result=NULL;
         }
         ofLogVerbose(QR_SCENE_NAME) << "exit";
+    }
+
+    void mousePressed(int x, int y, int button){
+#ifdef _DEBUG
+        qr = "http://skybox.cloud/id/YhhoQTAAuX1z";
+        ofLogNotice(QR_SCENE_NAME) << "Skipping QR scene with code: " << qr << endl;
+        sceneManager.gotoScene(POST_SCENE_NAME);
+#endif
     }
     
     ofVideoGrabber camera;

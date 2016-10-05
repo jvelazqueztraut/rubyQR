@@ -15,8 +15,6 @@
 
 #include "scenes/scenes.h"
 
-//#define _DEBUG
-
 class ofApp : public ofxApp{
 	
 	public:

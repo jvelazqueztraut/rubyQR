@@ -6,24 +6,24 @@
 #include "ofxJSONElement.h"
 #include "ofxAndroidExtendedEditText.h"
 
-#define TEXTINPUT_PADDING 10
-#define TEXTINPUT_WIDTH 500
-#define TEXTINPUT_HEIGHT 50
+#define TEXTINPUT_PADDING (10*ofGetWidth()/APP_WIDTH)
+#define TEXTINPUT_WIDTH (500*ofGetWidth()/APP_WIDTH)
+#define TEXTINPUT_HEIGHT (50*ofGetWidth()/APP_WIDTH)
 
 class InicioScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     InicioScene(ofxSceneManager& sm, string& n, string& d, string& u) : sceneManager(sm), node(n), device(d), url(u), ofxScene(INICIO_SCENE_NAME, false) {
-        font.load("fonts/Calibri/calibri.ttf",16);
-        hints.load("fonts/Calibri/CalibriL.ttf",14);
-        loginText.load("fonts/Calibri/calibri.ttf",24);
+        font.load("fonts/Calibri/calibri.ttf",16*ofGetWidth()/APP_WIDTH);
+        hints.load("fonts/Calibri/CalibriL.ttf",14*ofGetWidth()/APP_WIDTH);
+        loginText.load("fonts/Calibri/calibri.ttf",24*ofGetWidth()/APP_WIDTH);
         
         loginButton.x=0;
         loginButton.y=0;
         loginButton.width=BUTTON_WIDTH;
         loginButton.height=BUTTON_HEIGHT;
         
-        nodeInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5-TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        nodeInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5-TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         /*nodeInputBounds.x = 0;
         nodeInputBounds.y = 0;
         nodeInputBounds.width = TEXTINPUT_WIDTH;
@@ -31,7 +31,7 @@ public:
         nodeInput.setFont(font);
         nodeInput.disable();*/
         
-        deviceInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        deviceInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         /*deviceInputBounds.x = 0;
         deviceInputBounds.y = 0;
         deviceInputBounds.width = TEXTINPUT_WIDTH;
@@ -39,7 +39,7 @@ public:
         deviceInput.setFont(font);
         deviceInput.disable();*/
         
-        urlInputBounds.set(APP_WIDTH*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,APP_HEIGHT*0.5+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        urlInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         /*urlInputBounds.x = 0;
         urlInputBounds.y = 0;
         urlInputBounds.width = TEXTINPUT_WIDTH;
@@ -51,18 +51,18 @@ public:
     // scene setup
     void setup() {
         nodeInput.setup();
-        nodeInput.add(node,nodeInputBounds.x*ofGetWidth()/APP_WIDTH-TEXTINPUT_PADDING,nodeInputBounds.y*ofGetHeight()/APP_HEIGHT-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese el nodo");
+        nodeInput.add(node,nodeInputBounds.x-TEXTINPUT_PADDING,nodeInputBounds.y-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese el nodo");
         //nodeInput.disable();
         
         deviceInput.setup();
-        deviceInput.add(device,deviceInputBounds.x*ofGetWidth()/APP_WIDTH-TEXTINPUT_PADDING,deviceInputBounds.y*ofGetHeight()/APP_HEIGHT-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese el dispositivo");
+        deviceInput.add(device,deviceInputBounds.x-TEXTINPUT_PADDING,deviceInputBounds.y-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese el dispositivo");
         //deviceInput.disable();
         
         urlInput.setup();
-        urlInput.add(url,urlInputBounds.x*ofGetWidth()/APP_WIDTH-TEXTINPUT_PADDING,urlInputBounds.y*ofGetHeight()/APP_HEIGHT-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese la URL");
+        urlInput.add(url,urlInputBounds.x-TEXTINPUT_PADDING,urlInputBounds.y-TEXTINPUT_PADDING,16*ofGetWidth()/APP_WIDTH,"Ingrese la URL");
         //urlInput.disable();
         
-        loginButton.setPosition(APP_WIDTH*0.5-loginButton.width/2,APP_HEIGHT-loginButton.height*1.5);
+        loginButton.setPosition(ofGetWidth()*0.5-loginButton.width/2,ofGetHeight()-loginButton.height*1.5);
                 
         time=ofGetElapsedTimef();
     }
@@ -140,9 +140,9 @@ public:
         ofPushStyle();
         
         ofSetColor(255,200);
-        ofDrawLine(nodeInputBounds.x,nodeInputBounds.y+nodeInputBounds.height+2,nodeInputBounds.x+nodeInputBounds.width,nodeInputBounds.y+nodeInputBounds.height+2);
-        ofDrawLine(deviceInputBounds.x,deviceInputBounds.y+deviceInputBounds.height+2,deviceInputBounds.x+deviceInputBounds.width,deviceInputBounds.y+deviceInputBounds.height+2);
-        ofDrawLine(urlInputBounds.x,urlInputBounds.y+urlInputBounds.height+2,urlInputBounds.x+urlInputBounds.width,urlInputBounds.y+urlInputBounds.height+2);
+        ofDrawLine(nodeInputBounds.x,nodeInputBounds.y+nodeInputBounds.height+2*ofGetWidth()/APP_WIDTH,nodeInputBounds.x+nodeInputBounds.width,nodeInputBounds.y+nodeInputBounds.height+2*ofGetWidth()/APP_WIDTH);
+        ofDrawLine(deviceInputBounds.x,deviceInputBounds.y+deviceInputBounds.height+2*ofGetWidth()/APP_WIDTH,deviceInputBounds.x+deviceInputBounds.width,deviceInputBounds.y+deviceInputBounds.height+2*ofGetWidth()/APP_WIDTH);
+        ofDrawLine(urlInputBounds.x,urlInputBounds.y+urlInputBounds.height+2*ofGetWidth()/APP_WIDTH,urlInputBounds.x+urlInputBounds.width,urlInputBounds.y+urlInputBounds.height+2*ofGetWidth()/APP_WIDTH);
 
         
         ofSetColor(255,150);
@@ -169,8 +169,6 @@ public:
     }
     
     void mouseReleased(int x, int y, int button){
-        x*=APP_WIDTH/ofGetWidth();
-        y*=APP_HEIGHT/ofGetHeight();
         if(isExiting())
             return;
         if(loginButton.inside(x,y)){

@@ -1,9 +1,10 @@
+//#define _DEBUG
 
 #define APP_WIDTH 720.0
 #define APP_HEIGHT 1230.0
 
-#define BUTTON_WIDTH 500
-#define BUTTON_HEIGHT 80
+#define BUTTON_WIDTH (500*ofGetWidth()/APP_WIDTH)
+#define BUTTON_HEIGHT (80*ofGetWidth()/APP_WIDTH)
 
 #include "InicioScene.h"
 class InicioScene;
