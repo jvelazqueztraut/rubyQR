@@ -78,7 +78,7 @@ public:
     
     // draw
     void draw() {
-#ifdef TARGET_ANDROID
+#ifdef TARGET_IOS
         float scale = ofGetWidth()/camera.getWidth();
 #else
         float scale = ofGetHeight()/camera.getWidth();
