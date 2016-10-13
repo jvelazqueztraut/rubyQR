@@ -32,11 +32,11 @@ public:
 		
         // called on first enter update
         if(isEnteringFirst()) {
-            
+
             ofLogVerbose(POST_SCENE_NAME) << "update enter";
         }
         
-        update();
+        //update();
 		
         // call finishedEntering() to indicate scne is done entering
         if(true) {
@@ -51,7 +51,7 @@ public:
         float dt = t - time;
         time = t;
         
-        if(!posted && !isEntering() && !isExiting()){
+        if(!posted){
             // create the url string
             string uri = url;
             
@@ -105,11 +105,10 @@ public:
 		
         // called on first exit update
         if(isExitingFirst()) {
-            
             ofLogVerbose(POST_SCENE_NAME) << "update exit";
         }
         
-        update();
+        //update();
 		
         // call finishedExiting() to indicate scene is done exiting
         if(true) {
@@ -136,11 +135,11 @@ public:
     
     // cleanup
     void exit() {
+        posted=true;
         ofLogVerbose(POST_SCENE_NAME) << "exit";
     }
     
     bool posted;
-    ofHttpResponse res;
     ofTexture logo;
     float time;
     string& node;
