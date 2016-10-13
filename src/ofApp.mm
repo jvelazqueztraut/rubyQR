@@ -16,10 +16,10 @@ void ofApp::setup(){
     inicio.setColor(ofColor(255,255));
     
     std::string file = "login.json";
-    if(ofFile::doesFileExist(ofToDataPath(file))){
+    if(ofFile::doesFileExist(ofxiOSGetDocumentsDirectory()+file)){
         // Now parse the JSON
         ofxJSONElement login;
-        bool parsing = login.open(file);
+        bool parsing = login.open(ofxiOSGetDocumentsDirectory()+file);
         if(parsing){
             node = login["node"].asString();
             device = login["device"].asString();

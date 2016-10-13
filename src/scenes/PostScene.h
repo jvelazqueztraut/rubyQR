@@ -11,7 +11,7 @@ class PostScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     PostScene(ofxSceneManager& sm, string& n, string& d, string& u, string& q, ofxJSONElement& r) : sceneManager(sm), node(n),device(d),url(u), qr(q), response(r), ofxScene(POST_SCENE_NAME, false) {
-        
+        posted=true;
     }
     
     // scene setup
@@ -21,6 +21,8 @@ public:
         ofLoadImage(img,"logo.png");
         logo.loadData(img);
         logo.setAnchorPercent(0.5,0.5);
+        
+        posted=false;
                 
         time=ofGetElapsedTimef();
     }
@@ -49,7 +51,7 @@ public:
         float dt = t - time;
         time = t;
         
-        if(!isEntering() && !isExiting()){
+        if(!posted && !isEntering() && !isExiting()){
             // create the url string
             string uri = url;
             
@@ -65,6 +67,7 @@ public:
 
             ofLogNotice(POST_SCENE_NAME) << "URI: " << uri;
             ofHttpResponse res = ofLoadURL(uri);
+            posted=true;
             ofLogNotice(POST_SCENE_NAME) << "HTTP GET: " << res.status;
             if(res.status > 0) {
                 if(res.status == 200){
@@ -136,6 +139,7 @@ public:
         ofLogVerbose(POST_SCENE_NAME) << "exit";
     }
     
+    bool posted;
     ofHttpResponse res;
     ofTexture logo;
     float time;
