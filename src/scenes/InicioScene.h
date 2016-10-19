@@ -10,6 +10,9 @@
 #define TEXTINPUT_WIDTH (500*ofGetWidth()/APP_WIDTH)
 #define TEXTINPUT_HEIGHT (50*ofGetWidth()/APP_WIDTH)
 
+#define TEXTINPUT_CLEAR (30*ofGetWidth()/APP_WIDTH)
+#define TEXTINPUT_CLEAR_MARGIN (5*ofGetWidth()/APP_WIDTH)
+
 class InicioScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
@@ -23,7 +26,7 @@ public:
         loginButton.width=BUTTON_WIDTH;
         loginButton.height=BUTTON_HEIGHT;
         
-        nodeInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5-TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        nodeInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.35-TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         /*nodeInputBounds.x = 0;
         nodeInputBounds.y = 0;
         nodeInputBounds.width = TEXTINPUT_WIDTH;
@@ -31,7 +34,7 @@ public:
         nodeInput.setFont(font);
         nodeInput.disable();*/
         
-        deviceInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        deviceInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.35-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         /*deviceInputBounds.x = 0;
         deviceInputBounds.y = 0;
         deviceInputBounds.width = TEXTINPUT_WIDTH;
@@ -39,13 +42,17 @@ public:
         deviceInput.setFont(font);
         deviceInput.disable();*/
         
-        urlInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.5+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
+        urlInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2,ofGetHeight()*0.35+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         /*urlInputBounds.x = 0;
         urlInputBounds.y = 0;
         urlInputBounds.width = TEXTINPUT_WIDTH;
         urlInputBounds.height = TEXTINPUT_HEIGHT;
         urlInput.setFont(font);
         urlInput.disable();*/
+
+        nodeInputClear.set(nodeInputBounds.x+nodeInputBounds.width-TEXTINPUT_CLEAR,nodeInputBounds.y+TEXTINPUT_CLEAR_MARGIN,TEXTINPUT_CLEAR,TEXTINPUT_CLEAR);
+        deviceInputClear.set(deviceInputBounds.x+deviceInputBounds.width-TEXTINPUT_CLEAR,deviceInputBounds.y+TEXTINPUT_CLEAR_MARGIN,TEXTINPUT_CLEAR,TEXTINPUT_CLEAR);
+        urlInputClear.set(urlInputBounds.x+urlInputBounds.width-TEXTINPUT_CLEAR,urlInputBounds.y+TEXTINPUT_CLEAR_MARGIN,TEXTINPUT_CLEAR,TEXTINPUT_CLEAR);
     }
     
     // scene setup
@@ -144,7 +151,13 @@ public:
         ofDrawLine(deviceInputBounds.x,deviceInputBounds.y+deviceInputBounds.height+2*ofGetWidth()/APP_WIDTH,deviceInputBounds.x+deviceInputBounds.width,deviceInputBounds.y+deviceInputBounds.height+2*ofGetWidth()/APP_WIDTH);
         ofDrawLine(urlInputBounds.x,urlInputBounds.y+urlInputBounds.height+2*ofGetWidth()/APP_WIDTH,urlInputBounds.x+urlInputBounds.width,urlInputBounds.y+urlInputBounds.height+2*ofGetWidth()/APP_WIDTH);
 
-        
+        ofDrawLine(nodeInputClear.x+TEXTINPUT_CLEAR_MARGIN,nodeInputClear.y+TEXTINPUT_CLEAR_MARGIN,nodeInputClear.x+nodeInputClear.width-TEXTINPUT_CLEAR_MARGIN,nodeInputClear.y+nodeInputClear.height-TEXTINPUT_CLEAR_MARGIN);
+        ofDrawLine(nodeInputClear.x+TEXTINPUT_CLEAR_MARGIN,nodeInputClear.y+nodeInputClear.height-TEXTINPUT_CLEAR_MARGIN,nodeInputClear.x+nodeInputClear.width-TEXTINPUT_CLEAR_MARGIN,nodeInputClear.y+TEXTINPUT_CLEAR_MARGIN);
+        ofDrawLine(deviceInputClear.x+TEXTINPUT_CLEAR_MARGIN,deviceInputClear.y+TEXTINPUT_CLEAR_MARGIN,deviceInputClear.x+deviceInputClear.width-TEXTINPUT_CLEAR_MARGIN,deviceInputClear.y+urlInputClear.height-TEXTINPUT_CLEAR_MARGIN);
+        ofDrawLine(deviceInputClear.x+TEXTINPUT_CLEAR_MARGIN,deviceInputClear.y+deviceInputClear.height-TEXTINPUT_CLEAR_MARGIN,deviceInputClear.x+deviceInputClear.width-TEXTINPUT_CLEAR_MARGIN,deviceInputClear.y+TEXTINPUT_CLEAR_MARGIN);
+        ofDrawLine(urlInputClear.x+TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+TEXTINPUT_CLEAR_MARGIN,urlInputClear.x+urlInputClear.width-TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+urlInputClear.height-TEXTINPUT_CLEAR_MARGIN);
+        ofDrawLine(urlInputClear.x+TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+urlInputClear.height-TEXTINPUT_CLEAR_MARGIN,urlInputClear.x+urlInputClear.width-TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+TEXTINPUT_CLEAR_MARGIN);
+
         ofSetColor(255,150);
         hints.drawString("node",nodeInputBounds.x,nodeInputBounds.y);
         hints.drawString("device",deviceInputBounds.x,deviceInputBounds.y);
@@ -173,6 +186,16 @@ public:
             return;
         if(loginButton.inside(x,y)){
             sceneManager.gotoScene(QR_SCENE_NAME);
+        }
+
+        if(nodeInputClear.inside(x,y)){
+            nodeInput.setText("");
+        }
+        if(deviceInputClear.inside(x,y)){
+            deviceInput.setText("");
+        }
+        if(urlInputClear.inside(x,y)){
+            urlInput.setText("");
         }
         
         /*if(nodeInput.getIsEditing()){
@@ -220,6 +243,7 @@ public:
     ofxAndroidExtendedEditText deviceInput;
     ofxAndroidExtendedEditText urlInput;
     ofRectangle nodeInputBounds,deviceInputBounds,urlInputBounds;
+    ofRectangle nodeInputClear,deviceInputClear,urlInputClear;
     ofTrueTypeFont font;
     ofTrueTypeFont hints;
     ofRectangle loginButton;
