@@ -7,10 +7,10 @@
 #include "ofxAndroidExtendedEditText.h"
 
 #define TEXTINPUT_PADDING (10*ofGetWidth()/APP_WIDTH)
-#define TEXTINPUT_WIDTH (500*ofGetWidth()/APP_WIDTH)
+#define TEXTINPUT_WIDTH (550*ofGetWidth()/APP_WIDTH)
 #define TEXTINPUT_HEIGHT (50*ofGetWidth()/APP_WIDTH)
 
-#define TEXTINPUT_CLEAR (30*ofGetWidth()/APP_WIDTH)
+#define TEXTINPUT_CLEAR (40*ofGetWidth()/APP_WIDTH)
 #define TEXTINPUT_CLEAR_MARGIN (5*ofGetWidth()/APP_WIDTH)
 
 class InicioScene : public ofxScene {
@@ -128,7 +128,7 @@ public:
             login["node"]=node;
             login["device"]=device;
             login["url"]=url;
-            login.save("login.json");
+            login.save(ofToDataPath("login.json"));
 
             ofLogVerbose(INICIO_SCENE_NAME) << "update exit";
         }

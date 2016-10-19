@@ -39,9 +39,12 @@ void ofApp::setup(){
 
     // overlap scenes when transitioning
     // sceneManager.setOverlap(true);
+
+    // do not wait to change scenes
+    sceneManager.setMinChangeTime(0);
     
     //sceneManager.setup(true);	// true = setup all the scenes now (not on the fly)
-	ofSetLogLevel("ofxSceneManager", OF_LOG_NOTICE); // lets see whats going on inside
+	ofSetLogLevel("ofxSceneManager", OF_LOG_VERBOSE); // lets see whats going on inside
 	
 	// start with a specific scene
 	// set now to true in order to ignore the scene fade and change now
