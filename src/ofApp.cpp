@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofSetFrameRate(30);
 	ofBackground(183,39,39);
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	ofSetOrientation(OF_ORIENTATION_DEFAULT);
