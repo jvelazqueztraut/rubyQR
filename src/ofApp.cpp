@@ -10,9 +10,7 @@ void ofApp::setup(){
     ofAddListener(ofxAndroidEvents().pause,this,&ofApp::pause);
     ofAddListener(ofxAndroidEvents().resume,this,&ofApp::resume);
 
-	ofPixels img;
-    ofLoadImage(img,"ruby.png");
-    inicio.loadData(img);
+    inicio.load("ruby.png");
     inicio.setAnchorPercent(0.5,0.5);
     inicio.color.setDuration(0.75f);
     inicio.setPosition(ofPoint(ofGetWidth()-inicio.getWidth()*0.5,inicio.getHeight()*0.5));
@@ -68,13 +66,6 @@ void ofApp::update(){
 	float t = ofGetElapsedTimef();
 	float dt = t - time;
 	time = t;
-
-	if(!inicio.isAllocated()){
-	    ofPixels img;
-        ofLoadImage(img,"ruby.png");
-        inicio.loadData(img);
-        inicio.setAnchorPercent(0.5,0.5);
-	}
 
 	sceneManager.update();
     

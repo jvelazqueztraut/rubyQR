@@ -17,9 +17,7 @@ public:
     // scene setup
     void setup() {
 
-        ofPixels img;
-        ofLoadImage(img,"logo.png");
-        logo.loadData(img);
+        logo.load("logo.png");
         logo.setAnchorPercent(0.5,0.5);
 
         posted=false;
@@ -151,7 +149,7 @@ public:
     }
     
     bool posted;
-    ofTexture logo;
+    ofImage logo;
     float time;
     string& node;
     string& device;

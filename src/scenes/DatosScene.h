@@ -78,15 +78,12 @@ public:
             last.setText("Por favor scanee otro código QR");
         }
         
-        ofPixels img;
         if(status.text=="APROBADO"){
-            ofLoadImage(img,"check.png");
-            statusIcon.loadData(img);
+            statusIcon.load("check.png");
             statusIcon.setAnchorPercent(0.5,0.5);
         }
         else{
-            ofLoadImage(img,"alert.png");
-            statusIcon.loadData(img);
+            statusIcon.load("alert.png");
             statusIcon.setAnchorPercent(0.5,0.5);
         }
         
@@ -224,7 +221,7 @@ public:
     ofxAnimatableObject<ofTrueTypeFont> title,status,last;
     vector< ofxAnimatableObject<ofTrueTypeFont> > fields;
     
-    ofTexture statusIcon;
+    ofImage statusIcon;
     
     ofxSceneManager& sceneManager;
 };

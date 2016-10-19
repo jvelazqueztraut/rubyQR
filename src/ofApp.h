@@ -54,7 +54,7 @@ class ofApp : public ofxApp{
     
         ofxJSONElement response;
     
-        ofxAnimatableObject<ofTexture> inicio;
+        ofxAnimatableObject<ofImage> inicio;
 
        	float time;
 };
