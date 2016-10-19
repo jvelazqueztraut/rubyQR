@@ -12,10 +12,6 @@ void ofApp::setup(){
 
     inicio.load("ruby.png");
     inicio.setAnchorPercent(0.5,0.5);
-    inicio.color.setDuration(0.75f);
-    inicio.setPosition(ofPoint(ofGetWidth()-inicio.getWidth()*0.5,inicio.getHeight()*0.5));
-    inicio.setColor(ofColor(255,0));
-    inicio.color.animateTo(ofColor(255,255));
     
     std::string file = "login.json";
     if(ofFile::doesFileExist(ofToDataPath(file))){
@@ -67,9 +63,12 @@ void ofApp::update(){
 	float dt = t - time;
 	time = t;
 
+    if(!inicio.isAllocated()){
+        inicio.load("ruby.png");
+        inicio.setAnchorPercent(0.5,0.5);
+    }
+
 	sceneManager.update();
-    
-    inicio.update(dt);
 }
 
 //--------------------------------------------------------------
@@ -83,7 +82,7 @@ void ofApp::draw(){
     
     //ofPopMatrix();
 
-    inicio.draw();
+    inicio.draw(ofGetWidth()-inicio.getWidth()*0.5,inicio.getHeight()*0.5);
     
 #ifdef _DEBUG
 	// draw current scene info using the ofxBitmapString stream interface
@@ -99,7 +98,8 @@ void ofApp::draw(){
 void ofApp::mousePressed(int x, int y, int button){
     //x*=APP_WIDTH/ofGetWidth();
     //y*=APP_HEIGHT/ofGetHeight();
-    if(inicio.inside(ofPoint(x,y))){
+    ofRectangle inicioArea(ofGetWidth()-inicio.getWidth(),0,inicio.getWidth(),inicio.getHeight());
+    if(inicioArea.inside(ofPoint(x,y))){
         sceneManager.gotoScene(INICIO_SCENE_NAME, false);
     }
 }
@@ -121,7 +121,8 @@ void ofApp::windowResized(int w, int h){
 #ifdef TARGET_ANDROID
 //--------------------------------------------------------------
 void ofApp::touchDown(int x, int y, int id){
-	if(inicio.inside(ofPoint(x,y))){
+    ofRectangle inicioArea(ofGetWidth()-inicio.getWidth(),0,inicio.getWidth(),inicio.getHeight());
+	if(inicioArea.inside(ofPoint(x,y))){
         sceneManager.gotoScene(INICIO_SCENE_NAME, false);
     }
 }
