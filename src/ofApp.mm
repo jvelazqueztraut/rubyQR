@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofSetFrameRate(30);
     ofLogWarning() << "Width: "<< ofGetWidth() << ", Height: "<< ofGetHeight();
 	ofBackground(183,39,39);
 	ofSetLogLevel(OF_LOG_VERBOSE);
