@@ -56,11 +56,21 @@ public:
             string uri = url;
             
             string varQR = "%Q";
-            size_t start_pos = uri.find(varQR);
-            if(start_pos != std::string::npos)
-                uri.replace(start_pos, varQR.length(), qr);
+            size_t start_pos_QR = uri.find(varQR);
+            if(start_pos_QR != std::string::npos)
+                uri.replace(start_pos_QR, varQR.length(), qr);
             else
                 uri=uri+qr;
+            
+            string varNode = "%N";
+            size_t start_pos_Node = uri.find(varNode);
+            if(start_pos_Node != std::string::npos)
+                uri.replace(start_pos_Node, varNode.length(), node);
+            
+            string varDevice = "%D";
+            size_t start_pos_Device = uri.find(varDevice);
+            if(start_pos_Device != std::string::npos)
+                uri.replace(start_pos_Device, varDevice.length(), device);
 
             if(uri.substr(0,4).compare("http")!=0)
                 uri="http://"+uri;
