@@ -60,7 +60,7 @@ public:
             else{
                 status.setText("RECHAZADO");
             }
-            last.setText("Último ingreso " + response["signup"]["last"].asString());
+            last.setText("Última lectura " + response["signup"]["last"].asString());
         }
         else{
             title.setText("No hay datos disponibles");
