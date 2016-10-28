@@ -4,12 +4,12 @@
 void ofApp::setup(){
     ofSetFrameRate(30);
     ofLogWarning() << "Width: "<< ofGetWidth() << ", Height: "<< ofGetHeight();
-	ofBackground(183,39,39);
+	ofBackground(255);
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	ofSetOrientation(OF_ORIENTATION_DEFAULT);
 
 	ofPixels img;
-    ofLoadImage(img,"ruby.png");
+    ofLoadImage(img,"passter.png");
     inicio.loadData(img);
     inicio.setAnchorPercent(0.5,0.5);
     inicio.color.setDuration(0.75f);

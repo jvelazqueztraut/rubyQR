@@ -71,11 +71,12 @@ public:
     
     // draw
     void draw() {
+        ofSetColor(35,255);
         errorText.drawString("Se ha producido un error",20,100*ofGetWidth()/APP_WIDTH);
         errorText.drawString("Por favor chequee su conexion",20,140*ofGetWidth()/APP_WIDTH);
         
         ofPushStyle();
-        ofSetColor(255,200);
+        ofSetColor(35,200);
         string scanStr = "SCAN";
         scanText.drawString(scanStr,scanButton.x+scanButton.width/2-scanText.stringWidth(scanStr)/2,scanButton.y+scanButton.height/2+scanText.stringHeight(scanStr)/2);
         ofNoFill();

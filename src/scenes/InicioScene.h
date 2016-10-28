@@ -36,21 +36,21 @@ public:
         nodeInput = new ofxiOSKeyboard(0,0,(nodeInputBounds.width-TEXTINPUT_CLEAR)*iOSScale,nodeInputBounds.height*iOSScale);
         nodeInput->setVisible(true);
         nodeInput->setBgColor(255, 255, 255, 0);
-        nodeInput->setFontColor(255,255,255, 255);
+        nodeInput->setFontColor(35,35,35, 255);
         nodeInput->setFontSize(24*iOSScale*ofGetHeight()/APP_HEIGHT);
         
         deviceInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,ofGetHeight()*0.35-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         deviceInput = new ofxiOSKeyboard(0,0,(deviceInputBounds.width-TEXTINPUT_CLEAR)*iOSScale,deviceInputBounds.height*iOSScale);
         deviceInput->setVisible(true);
         deviceInput->setBgColor(255, 255, 255, 0);
-        deviceInput->setFontColor(255,255,255, 255);
+        deviceInput->setFontColor(35,35,35, 255);
         deviceInput->setFontSize(24*iOSScale*ofGetHeight()/APP_HEIGHT);
         
         urlInputBounds.set(ofGetWidth()*0.5-TEXTINPUT_WIDTH/2-TEXTINPUT_PADDING,ofGetHeight()*0.35+TEXTINPUT_HEIGHT*1.75-TEXTINPUT_PADDING-font.getLineHeight(),TEXTINPUT_WIDTH,TEXTINPUT_HEIGHT);
         urlInput = new ofxiOSKeyboard(0,0,(urlInputBounds.width-TEXTINPUT_CLEAR)*iOSScale,urlInputBounds.height*iOSScale);
         urlInput->setVisible(true);
         urlInput->setBgColor(255, 255, 255, 0);
-        urlInput->setFontColor(255,255,255, 255);
+        urlInput->setFontColor(35,35,35, 255);
         urlInput->setFontSize(24*iOSScale*ofGetHeight()/APP_HEIGHT);
         
         nodeInputClear.set(nodeInputBounds.x+nodeInputBounds.width-TEXTINPUT_CLEAR,nodeInputBounds.y+TEXTINPUT_CLEAR_MARGIN,TEXTINPUT_CLEAR,TEXTINPUT_CLEAR);
@@ -146,9 +146,9 @@ public:
     void draw() {
         ofPushStyle();
         
-        ofSetColor(255,255);
+        ofSetColor(35,255);
         
-        ofSetColor(255,200);
+        ofSetColor(35,200);
         ofDrawLine(nodeInputBounds.x,nodeInputBounds.y+nodeInputBounds.height+2,nodeInputBounds.x+nodeInputBounds.width,nodeInputBounds.y+nodeInputBounds.height+2);
         ofDrawLine(deviceInputBounds.x,deviceInputBounds.y+deviceInputBounds.height+2,deviceInputBounds.x+deviceInputBounds.width,deviceInputBounds.y+deviceInputBounds.height+2);
         ofDrawLine(urlInputBounds.x,urlInputBounds.y+urlInputBounds.height+2,urlInputBounds.x+urlInputBounds.width,urlInputBounds.y+urlInputBounds.height+2);
@@ -162,12 +162,12 @@ public:
         ofDrawLine(urlInputClear.x+TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+urlInputClear.height-TEXTINPUT_CLEAR_MARGIN,urlInputClear.x+urlInputClear.width-TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+TEXTINPUT_CLEAR_MARGIN);
 
         
-        ofSetColor(255,150);
+        ofSetColor(35,150);
         hints.drawString("node",nodeInputBounds.x,nodeInputBounds.y);
         hints.drawString("device",deviceInputBounds.x,deviceInputBounds.y);
         hints.drawString("url",urlInputBounds.x,urlInputBounds.y);
         
-        ofSetColor(255,200);
+        ofSetColor(35,200);
         string loginStr = "LOGIN";
         loginText.drawString(loginStr,loginButton.x+loginButton.width/2-loginText.stringWidth(loginStr)/2,loginButton.y+loginButton.height/2+loginText.stringHeight(loginStr)/2);
         ofNoFill();

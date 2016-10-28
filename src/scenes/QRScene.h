@@ -84,7 +84,7 @@ public:
         float scale = ofGetHeight()/camera.getWidth();
 #endif
         ofPushStyle();
-        ofSetColor(255);
+        ofSetColor(35);
         ofPushMatrix();
         ofTranslate(ofGetWidth()*0.5,ofGetHeight()*0.5);
         ofScale(scale,scale);
