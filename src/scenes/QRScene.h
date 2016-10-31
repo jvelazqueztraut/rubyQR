@@ -84,7 +84,7 @@ public:
         float scale = ofGetHeight()/camera.getWidth();
 #endif
         ofPushStyle();
-        ofSetColor(35);
+        ofSetColor(255);
         ofPushMatrix();
         ofTranslate(ofGetWidth()*0.5,ofGetHeight()*0.5);
         ofScale(scale,scale);
@@ -98,6 +98,7 @@ public:
         }
         ofPopMatrix();
         ofNoFill();
+        ofSetColor(35);
         ofDrawRectangle(ofGetWidth()*0.5-100,ofGetHeight()*0.5-100,200,200);
         ofPopStyle();
     }
