@@ -41,11 +41,11 @@ public:
         
         if(response["signup"].size()>0){
             title.setText(response["signup"]["d1"].asString());
-            
-            for(int i=0;i<response["signup"].size()-3;i++){
+            ofLogWarning(DATOS_SCENE_NAME) << response["signup"].size();
+            for(int i=1;i<response["signup"].size()-3;i++){
                 ofxAnimatableObject<ofTrueTypeFont> field;
                 field.load("fonts/Futura/FuturaStd-Medium.otf",16*ofGetWidth()/APP_WIDTH);
-                field.setText(response["signup"]["d"+ofToString(i+2)].asString());
+                field.setText(response["signup"]["d"+ofToString(i+1)].asString());
                 field.setAnchorPercent(0.0,1.0);
                 field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2+DATOS_HEIGHT*(i+1)));
                 field.setColor(ofColor(255,0));
