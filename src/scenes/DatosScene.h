@@ -128,7 +128,7 @@ public:
         
         last.setColor(ofColor(35,0));
         last.setSize(0.8);
-        last.setPosition(fields.back().position.getCurrentPosition()+ofPoint(0,DATOS_HEIGHT*3.5));
+        last.setPosition(fields.back().position.getCurrentPosition()+ofPoint(0,DATOS_HEIGHT*3));
         
         title.setColor(ofColor(35,0));
         title.setSize(0.8);
@@ -146,8 +146,11 @@ public:
         peoplePostTimer=0.0f;
         
         peopleNumberScrollerArea=ofRectangle(peopleNumberButton.getPosition(),peopleNumberButton.getPosition()+ofPoint(peopleNumberButton.width,-1*NUMBER_SCROLLER_QTY*peopleNumberButton.height));
+        peopleNumberScrollerOrigin.set(0,0);
         peopleShowNumberScroller=false;
+        peopleNumberScrollerDragged=false;
         peopleNumberScroller=MT;
+        peopleNumberScrollerRef=peopleNumberScroller;
         
         time=ofGetElapsedTimef();
     }
@@ -304,6 +307,10 @@ public:
         ofDrawRectangle(scanButton);
         ofPopStyle();
         
+        ofSetColor(35,200);
+        string titleStr = "ACOMPAÑANTES";
+        peopleTitleText.drawString(titleStr,peopleSubButton.x,peopleSubButton.y-1.1*peopleTitleText.stringHeight(titleStr)/2);
+        
         if(peopleShowNumberScroller){
             ofPushStyle();
             ofSetColor(35,200);
@@ -351,11 +358,12 @@ public:
         
         if( peoplePostRequest || peoplePostTimer>0.0f){
             ofFill();
-            ofSetColor(35,255);
+            ofSetColor(35,200);
             ofDrawRectangle(peopleSendButton);
             ofSetColor(255,255);
             peopleSendText.drawString(peopleStr,peopleSendButton.x+peopleSendButton.width/2-peopleSendText.stringWidth(peopleStr)/2,peopleSendButton.y+peopleSendButton.height/2+peopleSendText.stringHeight(peopleStr)/2);
         }
+        
         ofPopStyle();
 
     }
@@ -394,10 +402,12 @@ public:
         if(isExiting())
             return;
         
-        ///GET OUT OF HEREEEEEE
         if(peopleNumberScrollerDragged){
+            //GET OUT OF HEREEEEE with a threshold
+            ofVec2f diff = peopleNumberScrollerOrigin-ofPoint(x,y);
+            if(diff.length() > 10)
+               return;
             peopleNumberScrollerDragged=false;
-            return;
         }
         
         if(scanButton.inside(x,y)){
