@@ -55,6 +55,7 @@ public:
             // create the url string
             string uri = url;
             
+            /*
             string varQR = "%Q";
             size_t start_pos_QR = uri.find(varQR);
             if(start_pos_QR != std::string::npos)
@@ -71,7 +72,10 @@ public:
             size_t start_pos_Device = uri.find(varDevice);
             if(start_pos_Device != std::string::npos)
                 uri.replace(start_pos_Device, varDevice.length(), device);
-
+            */
+            
+            uri=uri+"mode=scan&qr="+qr;
+            
             if(uri.substr(0,4).compare("http")!=0)
                 uri="http://"+uri;
 
