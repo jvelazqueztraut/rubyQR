@@ -146,7 +146,7 @@ public:
     void draw() {
         ofPushStyle();
         
-        ofSetColor(255,200);
+        ofSetColor(35,200);
         ofDrawLine(nodeInputBounds.x,nodeInputBounds.y+nodeInputBounds.height+2*ofGetWidth()/APP_WIDTH,nodeInputBounds.x+nodeInputBounds.width,nodeInputBounds.y+nodeInputBounds.height+2*ofGetWidth()/APP_WIDTH);
         ofDrawLine(deviceInputBounds.x,deviceInputBounds.y+deviceInputBounds.height+2*ofGetWidth()/APP_WIDTH,deviceInputBounds.x+deviceInputBounds.width,deviceInputBounds.y+deviceInputBounds.height+2*ofGetWidth()/APP_WIDTH);
         ofDrawLine(urlInputBounds.x,urlInputBounds.y+urlInputBounds.height+2*ofGetWidth()/APP_WIDTH,urlInputBounds.x+urlInputBounds.width,urlInputBounds.y+urlInputBounds.height+2*ofGetWidth()/APP_WIDTH);
@@ -158,12 +158,12 @@ public:
         ofDrawLine(urlInputClear.x+TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+TEXTINPUT_CLEAR_MARGIN,urlInputClear.x+urlInputClear.width-TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+urlInputClear.height-TEXTINPUT_CLEAR_MARGIN);
         ofDrawLine(urlInputClear.x+TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+urlInputClear.height-TEXTINPUT_CLEAR_MARGIN,urlInputClear.x+urlInputClear.width-TEXTINPUT_CLEAR_MARGIN,urlInputClear.y+TEXTINPUT_CLEAR_MARGIN);
 
-        ofSetColor(255,150);
+        ofSetColor(35,150);
         hints.drawString("node",nodeInputBounds.x,nodeInputBounds.y);
         hints.drawString("device",deviceInputBounds.x,deviceInputBounds.y);
         hints.drawString("url",urlInputBounds.x,urlInputBounds.y);
 
-        ofSetColor(255,200);
+        ofSetColor(35,200);
         string loginStr = "LOGIN";
         loginText.drawString(loginStr,loginButton.x+loginButton.width/2-loginText.stringWidth(loginStr)/2,loginButton.y+loginButton.height/2+loginText.stringHeight(loginStr)/2);
         ofNoFill();

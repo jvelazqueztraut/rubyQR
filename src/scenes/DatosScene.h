@@ -60,7 +60,7 @@ public:
             else{
                 status.setText("RECHAZADO");
             }
-            last.setText("Último ingreso " + response["signup"]["last"].asString());
+            last.setText("Última lectura " + response["signup"]["last"].asString());
         }
         else{
             title.setText("No hay datos disponibles");
@@ -87,15 +87,15 @@ public:
             statusIcon.setAnchorPercent(0.5,0.5);
         }
         
-        status.setColor(ofColor(255,0));
+        status.setColor(ofColor(35,0));
         status.setSize(0.8);
         status.setPosition(fields.back().position.getCurrentPosition()+ofPoint(50,DATOS_HEIGHT*2));
         
-        last.setColor(ofColor(255,0));
+        last.setColor(ofColor(35,0));
         last.setSize(0.8);
         last.setPosition(fields.back().position.getCurrentPosition()+ofPoint(0,DATOS_HEIGHT*3.5));
         
-        title.setColor(ofColor(255,0));
+        title.setColor(ofColor(35,0));
         title.setSize(0.8);
         
         scanButton.setPosition(ofGetWidth()*0.5-scanButton.width/2,ofGetHeight()-scanButton.height*1.5);
@@ -108,18 +108,18 @@ public:
 		
         // called on first enter update
         if(isEnteringFirst()) {
-            title.color.animateTo(ofColor(255,255));
+            title.color.animateTo(ofColor(35,255));
             title.size.animateTo(1.0);
             
             for(int i=0;i<fields.size();i++){
-                fields[i].color.animateToAfterDelay(ofColor(255,255),i*0.5);
+                fields[i].color.animateToAfterDelay(ofColor(35,255),i*0.5);
                 fields[i].size.animateToAfterDelay(1.0,i*0.5);
             }
             
-            status.color.animateTo(ofColor(255,255));
+            status.color.animateTo(ofColor(35,255));
             status.size.animateTo(1.0);
             
-            last.color.animateTo(ofColor(255,255));
+            last.color.animateTo(ofColor(35,255));
             last.size.animateTo(1.0);
             
             ofLogVerbose(DATOS_SCENE_NAME) << "update enter";
@@ -175,6 +175,7 @@ public:
         for(int i=0;i<fields.size();i++){
             fields[i].draw();
         }
+        ofSetColor(35);
         ofDrawLine(fields.back().position.getCurrentPosition()+ofPoint(0,DATOS_HEIGHT),fields.back().position.getCurrentPosition()+ofPoint(DATOS_WIDTH,DATOS_HEIGHT));
         
         statusIcon.draw(status.position.getCurrentPosition()-ofPoint(35,0));
@@ -183,7 +184,7 @@ public:
         last.draw();
         
         ofPushStyle();
-        ofSetColor(255,200);
+        ofSetColor(35,200);
         string scanStr = "SCAN";
         scanText.drawString(scanStr,scanButton.x+scanButton.width/2-scanText.stringWidth(scanStr)/2,scanButton.y+scanButton.height/2+scanText.stringHeight(scanStr)/2);
         ofNoFill();

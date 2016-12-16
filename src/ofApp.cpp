@@ -3,14 +3,14 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetFrameRate(30);
-	ofBackground(183,39,39);
+	ofBackground(255);
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	ofSetOrientation(OF_ORIENTATION_DEFAULT);
 
     ofAddListener(ofxAndroidEvents().pause,this,&ofApp::pause);
     ofAddListener(ofxAndroidEvents().resume,this,&ofApp::resume);
 
-    inicio.load("ruby.png");
+    inicio.load("passter.png");
     inicio.setAnchorPercent(0.5,0.5);
     
     std::string file = "login.json";
