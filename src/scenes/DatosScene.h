@@ -11,6 +11,7 @@
 #define DATOS_HEIGHT (50*ofGetWidth()/APP_WIDTH)
 
 #define PEOPLE_POST_TIMER 0.5
+#define NUMBER_SCROLLER_QTY 15
 
 class DatosScene : public ofxScene {
 public:
@@ -37,18 +38,22 @@ public:
         scanButton.height=BUTTON_HEIGHT;
         
         peopleNumberText.load("fonts/Calibri/calibrib.ttf",24*ofGetWidth()/APP_WIDTH);
-        peopleButtonText.load("fonts/Calibri/calibri.ttf",24*ofGetWidth()/APP_WIDTH);
+        peopleSendText.load("fonts/Calibri/calibri.ttf",24*ofGetWidth()/APP_WIDTH);
         peopleTitleText.load("fonts/Calibri/calibrib.ttf",24*ofGetWidth()/APP_WIDTH);
         peopleStatusText.load("fonts/Calibri/calibrii.ttf",24*ofGetWidth()/APP_WIDTH);
 
-        peopleButton.x=0;
-        peopleButton.y=0;
-        peopleButton.width=BUTTON_WIDTH/4;
-        peopleButton.height=BUTTON_HEIGHT;
+        peopleSendButton.x=0;
+        peopleSendButton.y=0;
+        peopleSendButton.width=BUTTON_WIDTH/4;
+        peopleSendButton.height=BUTTON_HEIGHT;
         peopleAddButton.x=0;
         peopleAddButton.y=0;
         peopleAddButton.width=BUTTON_WIDTH/6;
         peopleAddButton.height=BUTTON_HEIGHT;
+        peopleNumberButton.x=0;
+        peopleNumberButton.y=0;
+        peopleNumberButton.width=BUTTON_WIDTH/3;
+        peopleNumberButton.height=BUTTON_HEIGHT;
         peopleSubButton.x=0;
         peopleSubButton.y=0;
         peopleSubButton.width=BUTTON_WIDTH/6;
@@ -130,14 +135,19 @@ public:
         
         scanButton.setPosition(ofGetWidth()*0.5-scanButton.width/2,ofGetHeight()-scanButton.height*1.5);
 
-        peopleButton.setPosition(ofGetWidth()*0.5+scanButton.width/2-peopleButton.width,ofGetHeight()-scanButton.height*2.75);
+        peopleSendButton.setPosition(ofGetWidth()*0.5+scanButton.width/2-peopleSendButton.width,ofGetHeight()-scanButton.height*2.75);
         peopleSubButton.setPosition(ofGetWidth()*0.5-scanButton.width/2,ofGetHeight()-scanButton.height*2.75);
-        peopleAddButton.setPosition(ofGetWidth()*0.5-scanButton.width/2+peopleSubButton.width+BUTTON_WIDTH/3,ofGetHeight()-scanButton.height*2.75);
+        peopleNumberButton.setPosition(ofGetWidth()*0.5-scanButton.width/2+peopleSubButton.width,ofGetHeight()-scanButton.height*2.75);
+        peopleAddButton.setPosition(ofGetWidth()*0.5-scanButton.width/2+peopleSubButton.width+peopleNumberButton.width,ofGetHeight()-scanButton.height*2.75);
         
         peoplePostRequest=false;
         peoplePostWaiting=false;
         peoplePostStatus="";
         peoplePostTimer=0.0f;
+        
+        peopleNumberScrollerArea=ofRectangle(peopleNumberButton.getPosition(),peopleNumberButton.getPosition()+ofPoint(peopleNumberButton.width,-1*NUMBER_SCROLLER_QTY*peopleNumberButton.height));
+        peopleShowNumberScroller=false;
+        peopleNumberScroller=MT;
         
         time=ofGetElapsedTimef();
     }
@@ -252,6 +262,7 @@ public:
                 peoplePostStatus = "...";
             }
         }
+        
     }
     
     // called when scene is exiting
@@ -293,6 +304,28 @@ public:
         ofDrawRectangle(scanButton);
         ofPopStyle();
         
+        if(peopleShowNumberScroller){
+            ofPushStyle();
+            ofSetColor(35,200);
+            ofFill();
+            ofDrawRectangle(peopleNumberScrollerArea);
+            
+            ofPushMatrix();
+            ofTranslate(0,peopleNumberButton.height*(float)(peopleNumberScroller-floor(peopleNumberScroller)));
+            ofSetColor(255,255);
+            for(int i=0; i<NUMBER_SCROLLER_QTY; i++){
+                ofTranslate(0,-peopleNumberButton.height);
+                string scrollStr = ofToString(floor(peopleNumberScroller)+i);
+                peopleNumberText.drawString(scrollStr,peopleNumberButton.x+peopleNumberButton.width/2-peopleNumberText.stringWidth(scrollStr)/2,peopleNumberButton.y+peopleNumberButton.height/2+peopleNumberText.stringHeight(scrollStr)/2);
+            }
+            ofPopMatrix();
+            
+            ofSetColor(255,255);
+            ofFill();
+            ofDrawRectangle(peopleNumberButton);
+            ofPopStyle();
+        }
+        
         
         ofPushStyle();
         ofSetColor(35,200);
@@ -300,28 +333,28 @@ public:
         ofDrawRectangle(peopleAddButton);
         ofDrawRectangle(peopleSubButton);
         ofNoFill();
-        ofDrawRectangle(ofRectangle(peopleSubButton.getPosition(),peopleAddButton.getPosition()+ofPoint(peopleAddButton.width,peopleAddButton.height)));
-        ofDrawRectangle(peopleButton);
+        ofDrawRectangle(peopleNumberButton);
+        ofDrawRectangle(peopleSendButton);
         
         ofSetColor(255,255);
-        peopleButtonText.drawString("+",peopleAddButton.x+peopleAddButton.width/2-peopleButtonText.stringWidth("+")/2,peopleAddButton.y+peopleAddButton.height/2+peopleButtonText.stringHeight("+")/2);
-        peopleButtonText.drawString("-",peopleSubButton.x+peopleSubButton.width/2-peopleButtonText.stringWidth("-")/2,peopleSubButton.y+peopleSubButton.height/2+peopleButtonText.stringHeight("-")/2);
+        peopleSendText.drawString("+",peopleAddButton.x+peopleAddButton.width/2-peopleSendText.stringWidth("+")/2,peopleAddButton.y+peopleAddButton.height/2+peopleSendText.stringHeight("+")/2);
+        peopleSendText.drawString("-",peopleSubButton.x+peopleSubButton.width/2-peopleSendText.stringWidth("-")/2,peopleSubButton.y+peopleSubButton.height/2+peopleSendText.stringHeight("-")/2);
         
         ofSetColor(35,200);
-        peopleNumberText.drawString(ofToString(MT),peopleSubButton.x+peopleSubButton.width+BUTTON_WIDTH/6-peopleNumberText.stringWidth(ofToString(MT))/2,peopleSubButton.y+peopleSubButton.height/2+peopleNumberText.stringHeight(ofToString(MT))/2);
+        peopleNumberText.drawString(ofToString(MT),peopleNumberButton.x+peopleNumberButton.width/2-peopleNumberText.stringWidth(ofToString(MT))/2,peopleNumberButton.y+peopleNumberButton.height/2+peopleNumberText.stringHeight(ofToString(MT))/2);
         
         string peopleStr = "OK";
-        peopleButtonText.drawString(peopleStr,peopleButton.x+peopleButton.width/2-peopleButtonText.stringWidth(peopleStr)/2,peopleButton.y+peopleButton.height/2+peopleButtonText.stringHeight(peopleStr)/2);
+        peopleSendText.drawString(peopleStr,peopleSendButton.x+peopleSendButton.width/2-peopleSendText.stringWidth(peopleStr)/2,peopleSendButton.y+peopleSendButton.height/2+peopleSendText.stringHeight(peopleStr)/2);
         
         ofSetColor(35,255);
-        peopleStatusText.drawString(peoplePostStatus,peopleButton.x+peopleButton.width-peopleStatusText.stringWidth(peoplePostStatus),peopleButton.y-1.1*peopleStatusText.stringHeight(peoplePostStatus)/2);
+        peopleStatusText.drawString(peoplePostStatus,peopleSendButton.x+peopleSendButton.width-peopleStatusText.stringWidth(peoplePostStatus),peopleSendButton.y-1.1*peopleStatusText.stringHeight(peoplePostStatus)/2);
         
-        if(peoplePostRequest || peoplePostTimer > 0.0f){
+        if( peoplePostRequest || peoplePostTimer>0.0f){
             ofFill();
             ofSetColor(35,255);
-            ofDrawRectangle(peopleButton);
+            ofDrawRectangle(peopleSendButton);
             ofSetColor(255,255);
-            peopleButtonText.drawString(peopleStr,peopleButton.x+peopleButton.width/2-peopleButtonText.stringWidth(peopleStr)/2,peopleButton.y+peopleButton.height/2+peopleButtonText.stringHeight(peopleStr)/2);
+            peopleSendText.drawString(peopleStr,peopleSendButton.x+peopleSendButton.width/2-peopleSendText.stringWidth(peopleStr)/2,peopleSendButton.y+peopleSendButton.height/2+peopleSendText.stringHeight(peopleStr)/2);
         }
         ofPopStyle();
 
@@ -332,12 +365,53 @@ public:
         ofLogVerbose(DATOS_SCENE_NAME) << "exit";
     }
     
+    void mousePressed(int x, int y, int button){
+        if(isExiting())
+            return;
+        
+        if(peopleNumberScrollerArea.inside(x,y)){
+            peopleNumberScrollerOrigin.set(x,y);
+            peopleNumberScrollerRef=peopleNumberScroller;
+        }
+        else{
+            peopleNumberScrollerOrigin.set(0,0);
+        }
+    }
+
+    void mouseDragged(int x, int y, int button){
+        if(isExiting())
+            return;
+        
+        if(peopleNumberScrollerArea.inside(peopleNumberScrollerOrigin.x,peopleNumberScrollerOrigin.y)){
+            peopleNumberScrollerDragged=true;
+            peopleNumberScroller = peopleNumberScrollerRef + ((float)y - peopleNumberScrollerOrigin.y)/peopleNumberButton.height;
+            if(peopleNumberScroller<1)
+                peopleNumberScroller=1;
+        }
+    }
+
     void mouseReleased(int x, int y, int button){
         if(isExiting())
             return;
+        
+        ///GET OUT OF HEREEEEEE
+        if(peopleNumberScrollerDragged){
+            peopleNumberScrollerDragged=false;
+            return;
+        }
+        
         if(scanButton.inside(x,y)){
             sceneManager.gotoScene(QR_SCENE_NAME);
             return;
+        }
+        
+        if(peopleNumberButton.inside(x,y)){
+            peopleShowNumberScroller = !peopleShowNumberScroller;
+        }
+        
+        if(peopleShowNumberScroller && peopleNumberScrollerArea.inside(x,y)){
+            MT = peopleNumberScroller + floor((peopleNumberButton.y - y)/peopleNumberButton.height);
+            peopleShowNumberScroller = !peopleShowNumberScroller;
         }
         
         if(peopleAddButton.inside(x,y)){
@@ -349,7 +423,7 @@ public:
                 MT--;
         }
         
-        if(peopleButton.inside(x,y)){
+        if(peopleSendButton.inside(x,y)){
             if(peoplePostTimer<=0.0f){
                 peoplePostRequest=true;
             }
@@ -367,11 +441,16 @@ public:
     ofRectangle scanButton;
     ofTrueTypeFont scanText;
     
-    ofRectangle peopleButton,peopleAddButton,peopleSubButton;
-    ofTrueTypeFont peopleNumberText,peopleButtonText,peopleTitleText,peopleStatusText;
+    ofRectangle peopleNumberButton,peopleSendButton,peopleAddButton,peopleSubButton;
+    ofTrueTypeFont peopleNumberText,peopleSendText,peopleTitleText,peopleStatusText;
     bool peoplePostRequest,peoplePostWaiting;
     string peoplePostStatus;
     float peoplePostTimer;
+    
+    ofRectangle peopleNumberScrollerArea;
+    ofPoint peopleNumberScrollerOrigin;
+    bool peopleShowNumberScroller,peopleNumberScrollerDragged;
+    float peopleNumberScroller,peopleNumberScrollerRef;
 
     ofxAnimatableObject<ofTrueTypeFont> title,status,last;
     vector< ofxAnimatableObject<ofTrueTypeFont> > fields;

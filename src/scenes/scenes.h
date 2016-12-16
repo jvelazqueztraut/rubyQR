@@ -1,4 +1,4 @@
-#define _DEBUG
+//#define _DEBUG
 
 #define APP_WIDTH 640.0
 #define APP_HEIGHT 1136.0
