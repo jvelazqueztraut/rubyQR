@@ -216,7 +216,12 @@ public:
                             string token = APP_TOKEN;
                             if(token.compare(response["token"].asString())==0){
                                 ofLogNotice(POST_SCENE_NAME) << "Respuesta: " << res.data.getText();
-                                peoplePostStatus = response["status"].asString();
+                                if(response["status"].asString()=="OK"){
+                                    peoplePostStatus = "LISTO";
+                                }
+                                else{
+                                    peoplePostStatus = "ERROR";
+                                }
                                 //sceneManager.gotoScene(DATOS_SCENE_NAME);
                             }
                             else{
@@ -305,7 +310,7 @@ public:
         ofSetColor(35,200);
         peopleNumberText.drawString(ofToString(MT),peopleSubButton.x+peopleSubButton.width+BUTTON_WIDTH/6-peopleNumberText.stringWidth(ofToString(MT))/2,peopleSubButton.y+peopleSubButton.height/2+peopleNumberText.stringHeight(ofToString(MT))/2);
         
-        string peopleStr = "ENVIAR";
+        string peopleStr = "OK";
         peopleButtonText.drawString(peopleStr,peopleButton.x+peopleButton.width/2-peopleButtonText.stringWidth(peopleStr)/2,peopleButton.y+peopleButton.height/2+peopleButtonText.stringHeight(peopleStr)/2);
         
         ofSetColor(35,255);
