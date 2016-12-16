@@ -60,7 +60,7 @@ public:
             if(start_pos_QR != std::string::npos)
                 uri.replace(start_pos_QR, varQR.length(), qr);
             else
-                uri=uri+qr;
+                uri=uri+"mode=scan&qr="+qr;
             
             string varNode = "%N";
             size_t start_pos_Node = uri.find(varNode);
