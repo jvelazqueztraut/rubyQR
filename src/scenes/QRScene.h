@@ -25,14 +25,15 @@ public:
 		
         // called on first enter update
         if(isEnteringFirst()) {
-            
+            timer = 0.5;
+
             ofLogVerbose(QR_SCENE_NAME) << "update enter";
         }
         
         update();
 		
         // call finishedEntering() to indicate scne is done entering
-        if(true) {
+        if(timer<=0.0f) {
             
             finishedEntering();
             ofLogVerbose(QR_SCENE_NAME) << "update enter done";
@@ -44,6 +45,12 @@ public:
         float t = ofGetElapsedTimef();
         float dt = t - time;
         time = t;
+
+        if(timer){
+            timer-=dt;
+            if(timer<=0.0f)
+                timer=0.0f;
+        }
         
         camera.update();
         if(camera.isFrameNew()){
@@ -121,6 +128,8 @@ public:
     
     ofVideoGrabber camera;
     ofxZxing::Result * result;
+    
+    float timer;
     
     float time;
     string& qr;

@@ -11,7 +11,7 @@ class PostScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
     PostScene(ofxSceneManager& sm, string& n, string& d, string& u, string& q, ofxJSONElement& r) : sceneManager(sm), node(n),device(d),url(u), qr(q), response(r), ofxScene(POST_SCENE_NAME, false) {
-        posted=true;
+        posted=false;
     }
     
     // scene setup
