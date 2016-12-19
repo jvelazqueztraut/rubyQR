@@ -32,7 +32,7 @@ void ofApp::setup(){
     sceneManager.add(new InicioScene(sceneManager,node,device,url));
     sceneManager.add(new QRScene(sceneManager,qr));
     sceneManager.add(new PostScene(sceneManager,node,device,url,qr,response));
-    sceneManager.add(new DatosScene(sceneManager,response));
+    sceneManager.add(new DatosScene(sceneManager,response,url,qr));
     sceneManager.add(new ErrorScene(sceneManager));
 
     // overlap scenes when transitioning
