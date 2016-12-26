@@ -94,21 +94,25 @@ public:
                         }
                         else{
                             ofLogError(POST_SCENE_NAME) << "Token invalido.";
+                            response["error"] = "Token invalido";
                             sceneManager.gotoScene(ERROR_SCENE_NAME);
                         }
                     }
                     else{
                         ofLogError(POST_SCENE_NAME) << "Problemas con el parseo de la respuesta: " << res.data.getText();
+                        response["error"] = "Problemas con la respuesta del servicio web";
                         sceneManager.gotoScene(ERROR_SCENE_NAME);
                     }
                 }
                 else{
                     ofLogError(POST_SCENE_NAME) << "Problemas con la URL: " << res.data.getText();
+                    response["error"] = "Por favor chequee la URL (" + ofToString(res.status) + ")";
                     sceneManager.gotoScene(ERROR_SCENE_NAME);
                 }
             }
             else{
                 ofLogError(POST_SCENE_NAME) << "Problemas con la conexión: " << res.data.getText();
+                response["error"] = "Por favor chequee su conexión";
                 sceneManager.gotoScene(ERROR_SCENE_NAME);
             }
         }
