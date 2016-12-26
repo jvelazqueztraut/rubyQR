@@ -110,7 +110,7 @@ public:
             ID = "";
         }
 
-        multiplePeople = true;//(ofToInt(response["multiple"].asString())>0);
+        multiplePeople = (ofToInt(response["multiple"].asString())>0);
         MT = 1;
         
         ofPixels img;
