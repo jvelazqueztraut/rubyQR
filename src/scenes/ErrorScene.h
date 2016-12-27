@@ -72,8 +72,8 @@ public:
     // draw
     void draw() {
         ofSetColor(35,255);
-        errorText.drawString("Se ha producido un error",20,ofGetHeight()*0.15);
-        errorText.drawString(response["error"].asString(),20,ofGetHeight()*0.15+40*ofGetWidth()/APP_WIDTH);
+        errorText.drawString("Se ha producido un error",20,ofGetHeight()*0.25);
+        errorText.drawString(response["error"].asString(),20,ofGetHeight()*0.25+40*ofGetWidth()/APP_WIDTH);
         
         ofPushStyle();
         ofSetColor(35,200);
