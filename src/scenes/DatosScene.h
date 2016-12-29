@@ -81,7 +81,7 @@ public:
                 fields.push_back(field);
             }
             
-            std::size_t found = response["signup"]["status"].asString().find("aprov");
+            std::size_t found = response["signup"]["status"].asString().find("approv");
             if(found!=std::string::npos){
                 status.setText("APROBADO");
             }
