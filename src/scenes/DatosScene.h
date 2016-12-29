@@ -20,7 +20,7 @@ public:
         title.load("fonts/Futura/FuturaStd-Heavy.otf",36*ofGetWidth()/APP_WIDTH);
         title.setText("");
         title.setAnchorPercent(0.0,1.0);
-        title.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2));
+        title.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.25));
         
         status.load("fonts/Futura/FuturaStd-Medium.otf",24*ofGetWidth()/APP_WIDTH);
         status.setText("");
@@ -72,10 +72,10 @@ public:
             ofLogWarning(DATOS_SCENE_NAME) << response["signup"].size();
             for(int i=1;i<response["signup"].size()-3;i++){
                 ofxAnimatableObject<ofTrueTypeFont> field;
-                field.load("fonts/Futura/FuturaStd-Medium.otf",16*ofGetWidth()/APP_WIDTH);
+                field.load("fonts/Futura/FuturaStd-Medium.otf",20*ofGetWidth()/APP_WIDTH);
                 field.setText(response["signup"]["d"+ofToString(i+1)].asString());
                 field.setAnchorPercent(0.0,1.0);
-                field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2+DATOS_HEIGHT*(i+1)));
+                field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.25+DATOS_HEIGHT*(i+1)));
                 field.setColor(ofColor(255,0));
                 field.setSize(0.8);
                 fields.push_back(field);
@@ -96,10 +96,10 @@ public:
             title.setText("No hay datos disponibles");
             
             ofxAnimatableObject<ofTrueTypeFont> field;
-            field.load("fonts/Futura/FuturaStd-Medium.otf",16*ofGetWidth()/APP_WIDTH);
+            field.load("fonts/Futura/FuturaStd-Medium.otf",20*ofGetWidth()/APP_WIDTH);
             field.setText("");
             field.setAnchorPercent(0.0,1.0);
-            field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.2+DATOS_HEIGHT));
+            field.setPosition(ofPoint(ofGetWidth()*0.5-DATOS_WIDTH/2,ofGetHeight()*0.25+DATOS_HEIGHT));
             field.setColor(ofColor(255,0));
             field.setSize(0.8);
             fields.push_back(field);
