@@ -356,7 +356,7 @@ public:
         
         if( peoplePostRequest || peoplePostTimer>0.0f){
             ofFill();
-            ofSetColor(35,255);
+            ofSetColor(35,200);
             ofDrawRectangle(peopleSendButton);
             ofSetColor(255,255);
             peopleSendText.drawString(peopleStr,peopleSendButton.x+peopleSendButton.width/2-peopleSendText.stringWidth(peopleStr)/2,peopleSendButton.y+peopleSendButton.height/2+peopleSendText.stringHeight(peopleStr)/2);
