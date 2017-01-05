@@ -8,7 +8,7 @@
 class ErrorScene : public ofxScene {
 public:
     // set the scene name through the base class initializer
-    ErrorScene(ofxSceneManager& sm) : sceneManager(sm), ofxScene(ERROR_SCENE_NAME, false) {
+    ErrorScene(ofxSceneManager& sm, ofxJSONElement& r) : sceneManager(sm), response(r), ofxScene(ERROR_SCENE_NAME, false) {
         errorText.load("fonts/Futura/FuturaStd-Medium.otf",24*ofGetWidth()/APP_WIDTH);
         
         scanText.load("fonts/Calibri/calibri.ttf",24*ofGetWidth()/APP_WIDTH);
@@ -71,11 +71,12 @@ public:
     
     // draw
     void draw() {
-        errorText.drawString("Se ha producido un error",20,100*ofGetWidth()/APP_WIDTH);
-        errorText.drawString("Por favor chequee su conexion",20,140*ofGetWidth()/APP_WIDTH);
+        ofSetColor(35);
+        errorText.drawString("Se ha producido un error",20,ofGetWidth()*0.25);
+        errorText.drawString(response["error"].asString(),20,fGetWidth()*0.25+40*ofGetWidth()/APP_WIDTH);
         
         ofPushStyle();
-        ofSetColor(255,200);
+        ofSetColor(35,200);
         string scanStr = "SCAN";
         scanText.drawString(scanStr,scanButton.x+scanButton.width/2-scanText.stringWidth(scanStr)/2,scanButton.y+scanButton.height/2+scanText.stringHeight(scanStr)/2);
         ofNoFill();
@@ -106,6 +107,8 @@ public:
     
     ofRectangle scanButton;
     ofTrueTypeFont scanText;
+
+    ofxJSONElement& response;
     
     float time;
     ofxSceneManager& sceneManager;

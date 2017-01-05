@@ -3,14 +3,14 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetFrameRate(30);
-	ofBackground(183,39,39);
+	ofBackground(255);
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	ofSetOrientation(OF_ORIENTATION_DEFAULT);
 
     ofAddListener(ofxAndroidEvents().pause,this,&ofApp::pause);
     ofAddListener(ofxAndroidEvents().resume,this,&ofApp::resume);
 
-    inicio.load("ruby.png");
+    inicio.load("passter.png");
     inicio.setAnchorPercent(0.5,0.5);
     
     std::string file = "login.json";
@@ -29,8 +29,8 @@ void ofApp::setup(){
     sceneManager.add(new InicioScene(sceneManager,node,device,url));
     sceneManager.add(new QRScene(sceneManager,qr));
     sceneManager.add(new PostScene(sceneManager,node,device,url,qr,response));
-    sceneManager.add(new DatosScene(sceneManager,response));
-    sceneManager.add(new ErrorScene(sceneManager));
+    sceneManager.add(new DatosScene(sceneManager,response,url,qr));
+    sceneManager.add(new ErrorScene(sceneManager,response));
 
     // overlap scenes when transitioning
     // sceneManager.setOverlap(true);
@@ -64,7 +64,7 @@ void ofApp::update(){
 	time = t;
 
     if(!inicio.isAllocated()){
-        inicio.load("ruby.png");
+        inicio.load("passter.png");
         inicio.setAnchorPercent(0.5,0.5);
     }
 
